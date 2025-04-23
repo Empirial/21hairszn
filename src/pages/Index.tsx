@@ -1,18 +1,16 @@
-
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Hero } from "@/components/salon/Hero";
 import { AboutSection } from "@/components/salon/AboutSection";
-import { ServicesSection } from "@/components/salon/ServicesSection";
 import { PromotionSection } from "@/components/salon/PromotionSection";
 import { Footer } from "@/components/salon/Footer";
 import { BookingSection } from "@/components/salon/BookingSection";
 import { BookingFormData } from "@/components/salon/BookingForm";
 import { toast } from "sonner";
 import { FeaturedProducts } from "@/components/salon/FeaturedProducts";
-import { CategoryShowcase } from "@/components/salon/CategoryShowcase";
 import { Testimonials } from "@/components/salon/Testimonials";
 import { NewsletterSection } from "@/components/salon/NewsletterSection";
+import { ShopDiscoverSection } from "@/components/salon/ShopDiscoverSection";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -24,73 +22,64 @@ const Index = () => {
     toast("Booking request submitted! We will contact you shortly.");
   };
 
-  // Services data
-  const services = [
+  // Unified discover section data (categories + services)
+  const discoverItems = [
     {
-      id: "1",
-      image: "https://placehold.co/600x400/f7e6e6/ff6f91",
-      title: "Luxury Extension Locs",
-      description: "Get premium extension locs for a beautiful, natural look",
-      primaryButtonText: "Shop Now",
-      secondaryButtonText: "View More",
-      primaryButtonAction: () => navigate("/luxury-loc-styling"),
-      secondaryButtonAction: () => navigate("/luxury-loc-styling"),
-    },
-    {
-      id: "2",
-      image: "https://placehold.co/600x400/f7e6e6/ff6f91",
-      title: "Luxury Wigs And Bundles",
-      description: "Find your perfect wig or bundle for a stunning makeover",
-      primaryButtonText: "Shop Now",
-      secondaryButtonText: "View More",
-      primaryButtonAction: () => navigate("/luxury-loc-wigs"),
-      secondaryButtonAction: () => navigate("/luxury-loc-wigs"),
-    },
-    {
-      id: "3",
-      image: "https://placehold.co/600x400/f7e6e6/ff6f91",
-      title: "Luxury Loc Styling & Haircare",
-      description: "Professional styling and haircare services by experts",
-      primaryButtonText: "Book Now",
-      secondaryButtonText: "View More",
-      primaryButtonAction: () => navigate("/#booking"),
-      secondaryButtonAction: () => navigate("/luxury-loc-styling"),
-    },
-    {
-      id: "4",
-      image: "https://placehold.co/600x400/f7e6e6/ff6f91",
-      title: "Luxury Loc Wigs",
-      description: "Premium quality locs wigs for a natural, gorgeous look",
-      primaryButtonText: "Shop Now",
-      secondaryButtonText: "View More",
-      primaryButtonAction: () => navigate("/luxury-loc-wigs"),
-      secondaryButtonAction: () => navigate("/luxury-loc-wigs"),
-    },
-  ];
-
-  // Category data
-  const categories = [
-    {
-      id: "1",
+      id: "cat1",
       image: "https://placehold.co/600x600/f7e6e6/ff6f91",
       title: "Luxury Wigs",
       link: "/luxury-loc-wigs",
+      label: "Category",
     },
     {
-      id: "2",
+      id: "cat2",
       image: "https://placehold.co/600x600/f7e6e6/ff6f91",
       title: "Hair Extensions",
       link: "/luxury-loc-styling",
+      label: "Category",
     },
     {
-      id: "3",
+      id: "cat3",
       image: "https://placehold.co/600x600/f7e6e6/ff6f91",
       title: "Styling Services",
       link: "/luxury-loc-styling",
+      label: "Category",
+    },
+    {
+      id: "srv1",
+      image: "https://placehold.co/600x400/f7e6e6/ff6f91",
+      title: "Luxury Extension Locs",
+      description: "Premium extension locs for a natural look.",
+      link: "/luxury-loc-styling",
+      label: "Service",
+    },
+    {
+      id: "srv2",
+      image: "https://placehold.co/600x400/f7e6e6/ff6f91",
+      title: "Luxury Wigs And Bundles",
+      description: "Perfect wig or bundle for a stunning makeover.",
+      link: "/luxury-loc-wigs",
+      label: "Service",
+    },
+    {
+      id: "srv3",
+      image: "https://placehold.co/600x400/f7e6e6/ff6f91",
+      title: "Luxury Loc Styling & Haircare",
+      description: "Professional styling & haircare services.",
+      link: "/luxury-loc-styling",
+      label: "Service",
+    },
+    {
+      id: "srv4",
+      image: "https://placehold.co/600x400/f7e6e6/ff6f91",
+      title: "Luxury Loc Wigs",
+      description: "Premium quality loc wigs for a gorgeous look.",
+      link: "/luxury-loc-wigs",
+      label: "Service",
     },
   ];
 
-  // Featured products data
+  // Only keep true products & combos in featured products
   const featuredProducts = [
     {
       id: "1",
@@ -120,6 +109,7 @@ const Index = () => {
       price: "6000",
       link: "/luxury-loc-wigs",
     },
+    // You can add combos here if available
   ];
 
   // Testimonials data
@@ -183,16 +173,17 @@ const Index = () => {
         logoImage="https://placehold.co/100x50/ffffff/ffffff"
       />
 
-      {/* Category Showcase */}
-      <CategoryShowcase 
-        title="Shop By Category" 
-        categories={categories} 
+      {/* Shop & Discover Section: combined category + services */}
+      <ShopDiscoverSection
+        title="Discover Our Collection & Services"
+        subtitle="Shop our categories and luxury hair services — all in one place."
+        items={discoverItems}
       />
 
-      {/* Featured Products Section */}
+      {/* Featured Products Section with Carousel */}
       <FeaturedProducts
-        title="Featured Products"
-        subtitle="Our most popular items"
+        title="Featured Wigs & Combos"
+        subtitle="Popular products & combos just for you"
         products={featuredProducts}
       />
 
@@ -200,13 +191,6 @@ const Index = () => {
       <AboutSection
         title="Who's this Divaa?"
         description="Where hair meets Art. 21HairSzn stylists and artisans are dedicated to creating one-of-a-kind looks that reflect your unique personality & style. Don't be shy, get into it & explore our wide range of unique styles 💋"
-      />
-
-      {/* Services Section */}
-      <ServicesSection
-        title="Our Services"
-        subtitle="Explore Our Different Services And Products."
-        services={services}
       />
 
       {/* Testimonials Section */}
