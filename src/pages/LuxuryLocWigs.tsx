@@ -3,59 +3,111 @@ import React, { useState } from "react";
 import LocProductCard, { CartItem } from "@/components/LocProductCard";
 import CartDrawer from "@/components/CartDrawer";
 
-const LOCWIG_PRODUCTS = [
+// All prices & options from screenshots
+const LOC_WIG_PRODUCTS = [
   {
-    img: "https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?auto=format&fit=crop&w=500&q=80",
-    title: "Luxury Loc Wig - Ocean Locs",
-    priceWaist: 3200,
-    priceButt: 3600,
-    fibrePrice: 0, // Fibre included in wigs
-    colors: ["Black", "Blonde", "White", "Red", "Ginger", "Grey", "Brown"],
-    description:
-      "Waist: R3200, Butt: R3600. Custom luxury Ocean Loc Wig, choose your ideal length and colour. Fibre inclusive.",
-  },
-  {
-    img: "https://images.unsplash.com/photo-1582562124811-c09040d0a901?auto=format&fit=crop&w=500&q=80",
-    title: "Luxury Loc Wig - Jungle Locs",
-    priceWaist: 2800,
-    priceButt: 3200,
-    fibrePrice: 0,
-    colors: ["Black", "Blonde", "Ginger", "Brown"],
-    description:
-      "Waist: R2800, Butt: R3200. Lush Jungle Loc wig in natural and bold shades. Fibre inclusive.",
-  },
-  {
-    img: "https://images.unsplash.com/photo-1721322800607-8c38375eef04?auto=format&fit=crop&w=500&q=80",
-    title: "Luxury Loc Wig - Bohemian",
-    priceWaist: 3500,
-    priceButt: 3900,
-    fibrePrice: 0,
-    colors: ["Black", "Blonde", "White", "Red", "Ginger", "Grey", "Brown"],
-    description:
-      "Waist: R3500, Butt: R3900. Bohemian style, fibre included, select your most loved colour.",
-  },
-  {
-    img: "https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?auto=format&fit=crop&w=500&q=80",
-    title: "Luxury Loc Wig - Human Hair Locs",
-    priceWaist: 5250,
-    priceButt: 6500,
-    fibrePrice: 0,
-    colors: ["Black", "Brown", "Custom (+R400)"],
-    description:
-      "Waist: R5250, Butt: R6500. 100% human hair luxury loc wig. Custom colours available for an additional R400. Fibre included.",
-  },
-  {
-    img: "https://images.unsplash.com/photo-1582562124811-c09040d0a901?auto=format&fit=crop&w=500&q=80",
-    title: "Luxury Loc Wig - Jumbo Distressed Locs",
-    priceWaist: 3100,
-    priceButt: 3500,
-    fibrePrice: 0,
-    colors: [
-      "Black", "Brown", "Blonde", "White", "Ginger", "Red", "Blue", "Pink", "Grey", "Ombre (brown, red, maroon)"
+    img: "https://images.unsplash.com/photo-1582562124811-c09040d0a901?auto=format&fit=crop&w=700&q=80",
+    title: "Jungle Locs",
+    lengths: [
+      { label: "Waist length", price: 1080 },
+      { label: "Butt length", price: 1180 }
     ],
-    description:
-      "Waist: R3100, Butt: R3500. Jumbo distressed style, fibre included, multiple colour choices.",
-  }
+    colors: ["Black", "Brown"],
+    description: "Handcrafted Jungle Locs available in black or brown.",
+    isWig: false,
+  },
+  {
+    img: "https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?auto=format&fit=crop&w=700&q=80",
+    title: "Ocean Locs",
+    lengths: [
+      { label: "Waist length", price: 1260 },
+      { label: "Butt length", price: 1320 }
+    ],
+    colors: ["Black", "Brown"],
+    description: "Stunning Ocean Locs in classic shades.",
+    isWig: false,
+  },
+  {
+    img: "https://images.unsplash.com/photo-1721322800607-8c38375eef04?auto=format&fit=crop&w=700&q=80",
+    title: "Distressed Locs",
+    lengths: [
+      { label: "Shoulder length", price: 800 },
+      { label: "Waist length", price: 980 },
+      { label: "Butt length", price: 1050 }
+    ],
+    colors: ["Black", "Brown"],
+    description: "Natural-looking Distressed Locs - three lengths.",
+    isWig: false,
+  },
+  {
+    img: "https://images.unsplash.com/photo-1556228720-da28da58b344?auto=format&fit=crop&w=700&q=80",
+    title: "Faux Locs",
+    lengths: [
+      { label: "Waist length", price: 950 },
+      { label: "Butt length", price: 1050 }
+    ],
+    colors: ["Black", "Brown"],
+    description: "Bold Faux Locs in timeless colors.",
+    isWig: false,
+  },
+  {
+    img: "https://images.unsplash.com/photo-1530673362162-5edde02c9d43?auto=format&fit=crop&w=700&q=80",
+    title: "Goddess Locs",
+    lengths: [
+      { label: "Waist length", price: 1100 },
+      { label: "Butt length", price: 1250 }
+    ],
+    colors: ["Black", "Brown"],
+    description: "Premium Goddess Locs with a luxe finish.",
+    isWig: false,
+  },
+  {
+    img: "https://images.unsplash.com/photo-1510337550647-e84f83e341ca?auto=format&fit=crop&w=700&q=80",
+    title: "Bohemian Locs",
+    lengths: [
+      { label: "Waist length", price: 1180 },
+      { label: "Butt length", price: 1300 }
+    ],
+    colors: ["Black", "Brown"],
+    description: "Fun, stylish Bohemian Locs.",
+    isWig: false,
+  },
+  // Wigs with additional options
+  {
+    img: "/lovable-uploads/616110d4-d2cd-4289-bc50-49bc661c5c49.png",
+    title: "Island Wig",
+    lengths: [
+      { label: "20 inch", price: 2650 },
+      { label: "22 inch", price: 2850 },
+      { label: "24 inch", price: 3010 },
+      { label: "26 inch", price: 3250 },
+      { label: "28 inch", price: 3500 },
+      { label: "30 inch", price: 3850 },
+    ],
+    colors: ["Black", "Brown"],
+    description: "Island wig - super glam! Add glueless or colour customization.",
+    isWig: true,
+    colorCustomizationPrice: 350,
+    gluelessPrice: 250,
+  },
+  {
+    img: "/lovable-uploads/78c1dd6a-b68a-4649-9cd7-77bee6e9cb92.png",
+    title: "Bohemian Wig",
+    lengths: [
+      { label: "18 inch", price: 2400 },
+      { label: "20 inch", price: 2650 },
+      { label: "22 inch", price: 2900 },
+      { label: "24 inch", price: 3050 },
+      { label: "26 inch", price: 3200 },
+      { label: "28 inch", price: 3500 },
+      { label: "30 inch", price: 3750 },
+    ],
+    colors: ["Black", "Brown"],
+    description: "Classic Bohemian wig, easy to wear. Add glueless or colour customization.",
+    isWig: true,
+    colorCustomizationPrice: 600,
+    gluelessPrice: 250,
+  },
 ];
 
 export default function LuxuryLocWigs() {
@@ -71,26 +123,38 @@ export default function LuxuryLocWigs() {
 
   return (
     <div className="min-h-screen bg-white flex flex-col px-2 pb-8 pt-3 relative">
-      {/* Cart fixed at the very top, centered */}
+      {/* Cart always visible at top */}
       <div className="flex w-full items-center justify-center mt-2 mb-7 z-50 relative">
         <div className="relative">
           <CartDrawer items={cart} onRemove={handleRemove} onClear={handleClear} />
         </div>
       </div>
-      {/* Page Heading and Description */}
       <div className="text-center mb-8">
-        <h1 className="text-4xl font-extrabold text-[#6E59A5] drop-shadow-sm">
-          Luxury Loc Wigs Collection
-        </h1>
+        <h1 className="text-4xl font-extrabold text-[#6E59A5] drop-shadow-sm">Luxury Loc Wigs Collection</h1>
         <p className="text-lg text-gray-700 mt-2 max-w-2xl mx-auto px-4 font-medium">
-          Shop our premium range of Luxury Loc Wigs—beautiful, bold, and totally glam! Select your color, preferred length, and get fibre included. Add to cart and start your transformation today.
+          Select from our curated line of Loc wigs and luxury loc styles in different lengths/prices. Wig options can add glueless or custom colours!
         </p>
       </div>
-      {/* Product grid, auto aligned */}
       <main className="flex-1 flex flex-col items-center w-full">
         <div className="w-full max-w-7xl grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-8 px-3 auto-rows-fr items-start justify-items-center">
-          {LOCWIG_PRODUCTS.map((prod, idx) => (
-            <LocProductCard key={prod.title + idx} {...prod} onAddToCart={handleAddToCart} />
+          {LOC_WIG_PRODUCTS.map((prod, idx) => (
+            <LocProductCard
+              key={prod.title + idx}
+              img={prod.img}
+              title={prod.title}
+              // Pass price info generically for LocProductCard flexibility
+              priceWaist={prod.lengths.find(l => l.label.toLowerCase().includes("waist"))?.price || prod.lengths[0].price}
+              priceButt={prod.lengths.find(l => l.label.toLowerCase().includes("butt"))?.price || prod.lengths[prod.lengths.length - 1].price}
+              fibrePrice={undefined} // No fibre options now
+              colors={prod.colors}
+              description={prod.description}
+              onAddToCart={handleAddToCart}
+              // Extra options for LocProductCard's use (typescript will ignore extra props)
+              lengths={prod.lengths}
+              isWig={prod.isWig}
+              colorCustomizationPrice={prod.colorCustomizationPrice}
+              gluelessPrice={prod.gluelessPrice}
+            />
           ))}
         </div>
       </main>
