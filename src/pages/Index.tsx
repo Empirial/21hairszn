@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Hero } from "@/components/salon/Hero";
 import { AboutSection } from "@/components/salon/AboutSection";
@@ -35,8 +34,8 @@ const Index = () => {
       title: "Luxury Wigs And Bundles",
       primaryButtonText: "Shop Now",
       secondaryButtonText: "View More",
-      primaryButtonAction: () => (window.location.href = "#shop"),
-      secondaryButtonAction: () => (window.location.href = "#details"),
+      primaryButtonAction: () => (window.location.href = "/luxury-loc-wigs"),
+      secondaryButtonAction: () => (window.location.href = "/luxury-loc-wigs"),
     },
     {
       id: "3",
@@ -53,8 +52,8 @@ const Index = () => {
       title: "Luxury Loc Wigs",
       primaryButtonText: "Shop Now",
       secondaryButtonText: "View More",
-      primaryButtonAction: () => (window.location.href = "#shop"),
-      secondaryButtonAction: () => (window.location.href = "#details"),
+      primaryButtonAction: () => (window.location.href = "/luxury-loc-wigs"),
+      secondaryButtonAction: () => (window.location.href = "/luxury-loc-wigs"),
     },
   ];
 
@@ -133,4 +132,3 @@ const Index = () => {
 };
 
 export default Index;
-
