@@ -6,27 +6,21 @@ import { toast } from "@/components/ui/sonner";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 
-type LengthOption = "Waist length" | "Butt length";
-type ColorOption =
-  | "Black"
-  | "Brown"
-  | "Ginger"
-  | "Blonde"
-  | "White"
-  | "Red"
-  | "Grey"
-  | "Blue"
-  | "Pink"
-  | "Ombre (brown, red, maroon)"
-  | "Ombre (blonde, red, maroon)";
+export type LengthOption = {
+  label: string;
+  price: number;
+};
 
 export type CartItem = {
   title: string;
   color: string;
-  length: LengthOption;
+  length: string;
   fibre: boolean;
   price: number;
   img: string;
+  isWig?: boolean;
+  glueless?: boolean;
+  colorCustomized?: boolean;
 };
 
 interface LocProductCardProps {
@@ -38,9 +32,12 @@ interface LocProductCardProps {
   colors: string[];
   description?: string;
   onAddToCart: (item: CartItem) => void;
+  // Add the missing properties that we're passing from LuxuryLocWigs.tsx
+  lengths?: LengthOption[];
+  isWig?: boolean;
+  colorCustomizationPrice?: number;
+  gluelessPrice?: number;
 }
-
-const lengthOptions: LengthOption[] = ["Waist length", "Butt length"];
 
 const getDisplayColour = (color: string) => {
   // Match with tailwind/hex if possible, fallback to bg-neutral-600
@@ -69,27 +66,53 @@ export default function LocProductCard({
   colors,
   description,
   onAddToCart,
+  lengths,
+  isWig = false,
+  colorCustomizationPrice,
+  gluelessPrice,
 }: LocProductCardProps) {
   const [color, setColor] = useState(colors[0]);
-  const [length, setLength] = useState<LengthOption>("Waist length");
+  const [selectedLength, setSelectedLength] = useState(lengths ? lengths[0].label : "Waist length");
   const [withFibre, setWithFibre] = useState(false);
+  const [withGlueless, setWithGlueless] = useState(false);
+  const [withColorCustomization, setWithColorCustomization] = useState(false);
 
-  const lengthPrice = length === "Waist length" ? priceWaist : priceButt;
-  const fibreIncluded = fibrePrice === undefined;
+  // Determine price based on selected length or default to waist/butt lengths
+  const getBasePrice = () => {
+    if (lengths) {
+      const selected = lengths.find(l => l.label === selectedLength);
+      return selected ? selected.price : lengths[0].price;
+    }
+    return selectedLength.toLowerCase().includes("butt") ? priceButt : priceWaist;
+  };
+
+  const basePrice = getBasePrice();
   const fibreVal = withFibre && !fibreIncluded ? fibrePrice || 0 : 0;
-  const totalPrice = lengthPrice + fibreVal;
+  const gluelessVal = withGlueless && isWig ? gluelessPrice || 0 : 0;
+  const colorCustomizationVal = withColorCustomization && isWig ? colorCustomizationPrice || 0 : 0;
+  const fibreIncluded = fibrePrice === undefined;
+  
+  const totalPrice = basePrice + fibreVal + gluelessVal + colorCustomizationVal;
 
   const handleAddToCart = () => {
     onAddToCart({
       title,
       color,
-      length,
-      fibre: !!withFibre,
+      length: selectedLength,
+      fibre: fibreIncluded || withFibre,
       price: totalPrice,
       img,
+      isWig,
+      glueless: withGlueless,
+      colorCustomized: withColorCustomization
     });
     toast.success("Added to cart!");
   };
+
+  // Derive length options from lengths prop or use default
+  const lengthOptions = lengths ? 
+    lengths.map(l => l.label) : 
+    ["Waist length", "Butt length"];
 
   return (
     <div className="bg-white rounded-[26px] p-5 pb-6 drop-shadow-md flex flex-col items-center mx-auto mb-8 w-full max-w-[350px] shadow relative">
@@ -148,15 +171,15 @@ export default function LocProductCard({
       <div className="w-full mt-1 flex items-center gap-2">
         <span className="flex items-center gap-1 bg-[#ede6ed] px-4 py-1 rounded-full text-base font-semibold">
           <Ruler className="w-4 h-4 mr-1 text-[#8B5CF6]" />
-          {length}
+          {selectedLength}
         </span>
         {/* Dropdown for length */}
         <Select
-          value={length}
-          onValueChange={(val: LengthOption) => setLength(val)}
+          value={selectedLength}
+          onValueChange={(val) => setSelectedLength(val)}
         >
-          <SelectTrigger className="w-[120px] ml-2 font-medium bg-white border-[#EA6683] text-[#EA6683]">
-            <SelectValue placeholder="Length">{length}</SelectValue>
+          <SelectTrigger className="w-[130px] ml-2 font-medium bg-white border-[#EA6683] text-[#EA6683]">
+            <SelectValue placeholder="Length">{selectedLength}</SelectValue>
           </SelectTrigger>
           <SelectContent className="z-40 bg-white">
             {lengthOptions.map((opt) => (
@@ -168,30 +191,65 @@ export default function LocProductCard({
         </Select>
         {/* Show current price */}
         <span className="ml-auto font-bold text-lg text-[#EA6683] bg-[#f7e3ee] px-3 py-1 rounded-lg shadow border border-[#EA6683]">
-          R{lengthPrice}
+          R{basePrice}
         </span>
       </div>
-      {/* Fibre Addon */}
-      <div className="w-full mt-2 flex items-center gap-2">
-        {fibreIncluded ? (
-          <span className="block font-semibold text-[15px] text-[#191919] mt-2 bg-[#dceadc] px-3 py-1 rounded-full">
-            Fibre Included
-          </span>
-        ) : (
-          <>
+      
+      {/* Wig specific options */}
+      {isWig && (
+        <div className="w-full mt-3">
+          <div className="flex items-center gap-2 mb-2">
             <input
               type="checkbox"
-              id={`${title}-fibre`}
-              checked={withFibre}
-              onChange={(e) => setWithFibre(e.target.checked)}
-              className="accent-[#EA6683] w-4 h-4 mr-2"
+              id={`${title}-glueless`}
+              checked={withGlueless}
+              onChange={(e) => setWithGlueless(e.target.checked)}
+              className="accent-[#EA6683] w-4 h-4 mr-1"
             />
-            <label htmlFor={`${title}-fibre`} className="text-base font-medium">
-              Add Fibre (+R{fibrePrice})
+            <label htmlFor={`${title}-glueless`} className="text-base font-medium">
+              Glueless Option (+R{gluelessPrice})
             </label>
-          </>
-        )}
-      </div>
+          </div>
+          
+          <div className="flex items-center gap-2">
+            <input
+              type="checkbox"
+              id={`${title}-color-customization`}
+              checked={withColorCustomization}
+              onChange={(e) => setWithColorCustomization(e.target.checked)}
+              className="accent-[#EA6683] w-4 h-4 mr-1"
+            />
+            <label htmlFor={`${title}-color-customization`} className="text-base font-medium">
+              Custom Colour (+R{colorCustomizationPrice})
+            </label>
+          </div>
+        </div>
+      )}
+      
+      {/* Fibre Addon (only for non-wigs) */}
+      {!isWig && (
+        <div className="w-full mt-2 flex items-center gap-2">
+          {fibreIncluded ? (
+            <span className="block font-semibold text-[15px] text-[#191919] mt-2 bg-[#dceadc] px-3 py-1 rounded-full">
+              Fibre Included
+            </span>
+          ) : (
+            <>
+              <input
+                type="checkbox"
+                id={`${title}-fibre`}
+                checked={withFibre}
+                onChange={(e) => setWithFibre(e.target.checked)}
+                className="accent-[#EA6683] w-4 h-4 mr-2"
+              />
+              <label htmlFor={`${title}-fibre`} className="text-base font-medium">
+                Add Fibre (+R{fibrePrice})
+              </label>
+            </>
+          )}
+        </div>
+      )}
+      
       {/* Price and Add to Cart */}
       <div className="w-full mt-4 flex flex-col items-center">
         <div className="font-bold text-lg text-[#EA6683] mb-2">

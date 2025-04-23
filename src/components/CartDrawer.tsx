@@ -42,7 +42,9 @@ export default function CartDrawer({ items, onRemove, onClear }: CartDrawerProps
                   <div className="font-semibold">{item.title}</div>
                   <div className="text-xs text-[#EA6683]">{item.length}, {item.color}</div>
                   <div className="text-xs">
-                    {item.fibre ? <span className="text-[#6a8e21]">+ Fibre</span> : null}
+                    {item.fibre && <span className="text-[#6a8e21] mr-1">+ Fibre</span>}
+                    {item.glueless && <span className="text-[#6a8e21] mr-1">+ Glueless</span>}
+                    {item.colorCustomized && <span className="text-[#6a8e21]">+ Custom Color</span>}
                   </div>
                   <div className="font-bold">R{item.price}</div>
                 </div>

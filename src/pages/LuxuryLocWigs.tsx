@@ -137,25 +137,29 @@ export default function LuxuryLocWigs() {
       </div>
       <main className="flex-1 flex flex-col items-center w-full">
         <div className="w-full max-w-7xl grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-8 px-3 auto-rows-fr items-start justify-items-center">
-          {LOC_WIG_PRODUCTS.map((prod, idx) => (
-            <LocProductCard
-              key={prod.title + idx}
-              img={prod.img}
-              title={prod.title}
-              // Pass price info generically for LocProductCard flexibility
-              priceWaist={prod.lengths.find(l => l.label.toLowerCase().includes("waist"))?.price || prod.lengths[0].price}
-              priceButt={prod.lengths.find(l => l.label.toLowerCase().includes("butt"))?.price || prod.lengths[prod.lengths.length - 1].price}
-              fibrePrice={undefined} // No fibre options now
-              colors={prod.colors}
-              description={prod.description}
-              onAddToCart={handleAddToCart}
-              // Extra options for LocProductCard's use (typescript will ignore extra props)
-              lengths={prod.lengths}
-              isWig={prod.isWig}
-              colorCustomizationPrice={prod.colorCustomizationPrice}
-              gluelessPrice={prod.gluelessPrice}
-            />
-          ))}
+          {LOC_WIG_PRODUCTS.map((prod, idx) => {
+            // Get the min and max prices for display in the price ranges
+            const waistPrice = prod.lengths.find(l => l.label.toLowerCase().includes("waist"))?.price || prod.lengths[0].price;
+            const buttPrice = prod.lengths.find(l => l.label.toLowerCase().includes("butt"))?.price || prod.lengths[prod.lengths.length - 1].price;
+            
+            return (
+              <LocProductCard
+                key={prod.title + idx}
+                img={prod.img}
+                title={prod.title}
+                priceWaist={waistPrice}
+                priceButt={buttPrice}
+                fibrePrice={undefined} // No fibre options for now
+                colors={prod.colors}
+                description={prod.description}
+                onAddToCart={handleAddToCart}
+                lengths={prod.lengths}
+                isWig={prod.isWig}
+                colorCustomizationPrice={prod.colorCustomizationPrice}
+                gluelessPrice={prod.gluelessPrice}
+              />
+            );
+          })}
         </div>
       </main>
     </div>
