@@ -1,8 +1,12 @@
 
 import React from "react";
+import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { toast } from "sonner";
 
 const styles = {
-  card: "bg-white rounded-[26px] p-4 drop-shadow-md flex flex-col items-center mx-auto mb-8 w-full max-w-[337px] border-0 shadow-none",
+  card: "bg-white rounded-[26px] p-6 drop-shadow-md flex flex-col items-center mx-auto mb-8 w-full max-w-[337px] border-0 shadow-none",
   img: "rounded-[26px] w-full object-cover h-[312px] border-[6px] border-[#fff] shadow-lg mb-2",
   thumbList: "flex gap-2 mt-2 mb-4 w-full justify-center",
   thumb: "w-[53px] h-[53px] object-cover rounded-2xl border-2 border-[#fff] shadow",
@@ -21,38 +25,45 @@ const styles = {
 const cardData = [
   {
     img: "/lovable-uploads/6f0453d1-d48e-4639-a35b-92bee07ec251.png",
-    title: "",
+    title: "Passion Twists",
     jungleLocs: false,
+    price: "R350",
   },
   {
     img: "/lovable-uploads/6f0453d1-d48e-4639-a35b-92bee07ec251.png",
-    title: "",
+    title: "Butterfly Locs",
     jungleLocs: false,
+    price: "R450",
   },
   {
     img: "/lovable-uploads/6f0453d1-d48e-4639-a35b-92bee07ec251.png",
-    title: "",
+    title: "Knotless Braids",
     jungleLocs: false,
+    price: "R500",
   },
   {
     img: "/lovable-uploads/6f0453d1-d48e-4639-a35b-92bee07ec251.png",
-    title: "",
+    title: "Box Braids",
     jungleLocs: false,
+    price: "R400",
   },
   {
     img: "/lovable-uploads/6f0453d1-d48e-4639-a35b-92bee07ec251.png",
     title: "Jungle Locs",
     jungleLocs: true,
+    price: "R600",
   },
   {
     img: "/lovable-uploads/6f0453d1-d48e-4639-a35b-92bee07ec251.png",
-    title: "",
+    title: "Distress Locs",
     jungleLocs: false,
+    price: "R550",
   },
   {
     img: "/lovable-uploads/6f0453d1-d48e-4639-a35b-92bee07ec251.png",
-    title: "",
+    title: "Goddess Braids",
     jungleLocs: false,
+    price: "R480",
   },
 ];
 
@@ -64,14 +75,23 @@ const availableColors = [
   "#64F2FF", // Light blue
 ];
 
-function LocProductCard({ img, title, jungleLocs }: { img: string; title: string; jungleLocs?: boolean }) {
+function LocProductCard({ img, title, jungleLocs, price }: { img: string; title: string; jungleLocs?: boolean; price: string }) {
+  const handleAddToCart = () => {
+    toast.success(`Added ${title} to your cart!`);
+  };
+
   return (
     <div className={styles.card}>
       <div className="relative w-full">
-        <img src={img} alt="" className={styles.img} />
+        <img src={img} alt={title} className={styles.img} />
         {jungleLocs && (
           <span className="absolute left-6 bottom-8 text-3xl font-bold text-[#8C0E53] drop-shadow-xl jungle-title">
             Jungle Locs
+          </span>
+        )}
+        {!jungleLocs && title && (
+          <span className="absolute left-6 bottom-8 text-2xl font-bold text-white drop-shadow-xl">
+            {title}
           </span>
         )}
       </div>
@@ -86,7 +106,7 @@ function LocProductCard({ img, title, jungleLocs }: { img: string; title: string
       </div>
       <div className={styles.sizeRow}>
         <div className={styles.sizeBar}></div>
-        <span className={styles.sizeText}>3 inch</span>
+        <span className={styles.sizeText}>5 inch</span>
       </div>
       <div className="w-full">
         <div className={styles.colorLabel}>Available Colours</div>
@@ -104,42 +124,51 @@ function LocProductCard({ img, title, jungleLocs }: { img: string; title: string
         Price doesn't include Fibre
       </span>
       <div className={styles.fibrePriceRow}>
-        <span className={styles.fibrePrice}>R400</span>
+        <span className={styles.fibrePrice}>{price}</span>
         <span className={styles.fibreBtn}>For Fibre</span>
       </div>
-      <button className={styles.addToCartBtn}>Add To Cart Doll</button>
+      <button onClick={handleAddToCart} className={styles.addToCartBtn}>Add To Cart Doll</button>
     </div>
   );
 }
 
-export default function LuxuryLocStylingPage() {
+export default function LuxuryLocStyling() {
   return (
     <div className="min-h-screen w-full bg-white flex flex-col pb-2 pt-3">
       <header className="w-full bg-white py-3 px-3 mb-6">
         <nav className="flex justify-center items-center gap-6 max-w-[850px] mx-auto rounded-full bg-gradient-to-r from-[#EB5EB7] to-[#EA6683] h-16 shadow-md relative">
-          <img
-            src="/lovable-uploads/6f0453d1-d48e-4639-a35b-92bee07ec251.png"
-            className="absolute left-3 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full"
-            alt="logo"
-          />
-          <a href="/luxury-loc-styling" className="text-white text-base font-bold">Loc Styling</a>
-          <a href="#" className="text-white text-base font-bold">Loc Extensions</a>
-          <a href="#" className="text-white text-base font-bold">Loc Wigs</a>
-          <a href="/contact" className="text-white text-base font-bold">Contact Us</a>
-          <a
-            href="/booking"
+          <Link to="/">
+            <img
+              src="/lovable-uploads/6f0453d1-d48e-4639-a35b-92bee07ec251.png"
+              className="absolute left-3 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full"
+              alt="logo"
+            />
+          </Link>
+          <Link to="/luxury-loc-styling" className="text-white text-base font-bold">Loc Styling</Link>
+          <Link to="#" className="text-white text-base font-bold">Loc Extensions</Link>
+          <Link to="#" className="text-white text-base font-bold">Loc Wigs</Link>
+          <Link to="#" className="text-white text-base font-bold">Contact Us</Link>
+          <Link
+            to="#"
             className="ml-auto bg-white text-[#EA6683] font-bold rounded-full px-7 py-2 text-base shadow transition hover:bg-[#ea668380]/90"
             style={{
               boxShadow: "3px 3px 10px 0px #ea668344",
             }}
           >
             BOOK NOW!
-          </a>
+          </Link>
         </nav>
         <div className="mt-2 w-full max-w-[900px] mx-auto h-2 bg-gradient-to-r from-[#EB5EB7] to-[#EA6683] rounded-full shadow-md" />
       </header>
 
       <main className="flex-1">
+        <div className="text-center mb-8">
+          <h1 className="text-4xl font-bold text-[#EA6683]">Luxury Loc Styling</h1>
+          <p className="text-lg text-gray-700 mt-2 max-w-2xl mx-auto px-4">
+            Discover our exclusive collection of luxury loc styling services designed to elevate your look
+          </p>
+        </div>
+        
         {/* Responsive 3 columns grid */}
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-8 px-3">
           {cardData.map((card, idx) => (
@@ -148,18 +177,20 @@ export default function LuxuryLocStylingPage() {
         </div>
       </main>
 
-      <footer className="bg-white mt-10 pt-6 pb-2 border-t z-10">
+      <footer className="bg-white mt-10 pt-6 pb-2 border-t">
         <div className="flex justify-between items-center w-full max-w-5xl mx-auto px-4 flex-wrap">
-          <img
-            src="/lovable-uploads/6f0453d1-d48e-4639-a35b-92bee07ec251.png"
-            alt="logo"
-            className="h-16 mb-5"
-          />
+          <Link to="/">
+            <img
+              src="/lovable-uploads/6f0453d1-d48e-4639-a35b-92bee07ec251.png"
+              alt="logo"
+              className="h-16 mb-5"
+            />
+          </Link>
           <nav className="flex flex-row gap-8 mb-5">
-            <a href="/" className="text-black text-base font-semibold">Home Page</a>
-            <a href="/#services" className="text-black text-base font-semibold">Our Services</a>
-            <a href="/booking" className="text-black text-base font-semibold">Book Now</a>
-            <a href="/contact" className="text-black text-base font-semibold">Contact Us</a>
+            <Link to="/" className="text-black text-base font-semibold">Home Page</Link>
+            <Link to="/#services" className="text-black text-base font-semibold">Our Services</Link>
+            <Link to="/#booking" className="text-black text-base font-semibold">Book Now</Link>
+            <Link to="#" className="text-black text-base font-semibold">Contact Us</Link>
           </nav>
           <div className="flex gap-3 mb-5">
             <a href="#" aria-label="Facebook">
