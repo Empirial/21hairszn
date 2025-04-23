@@ -1,13 +1,16 @@
 
 import React, { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { ShoppingBag } from "lucide-react";
-import { toast } from "@/components/ui/sonner";
+import { toast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import ColourSelector from "./LocProductCard/ColourSelector";
 import LengthSelector from "./LocProductCard/LengthSelector";
 import WigOptions from "./LocProductCard/WigOptions";
 import FibreAddon from "./LocProductCard/FibreAddon";
+import ProductImage from "./LocProductCard/ProductImage";
+import ProductTitle from "./LocProductCard/ProductTitle";
+import ProductDescription from "./LocProductCard/ProductDescription";
+import ProductTotalPrice from "./LocProductCard/ProductTotalPrice";
+import AddToCartButton from "./LocProductCard/AddToCartButton";
 
 export type LengthOption = {
   label: string;
@@ -58,7 +61,7 @@ const getDisplayColour = (color: string) => {
   return map[color] || "#8E9196";
 };
 
-export default function LocProductCard({
+const LocProductCard: React.FC<LocProductCardProps> = ({
   img,
   title,
   priceWaist,
@@ -71,14 +74,13 @@ export default function LocProductCard({
   isWig = false,
   colorCustomizationPrice,
   gluelessPrice,
-}: LocProductCardProps) {
+}) => {
   const [color, setColor] = useState(colors[0]);
   const [selectedLength, setSelectedLength] = useState(lengths ? lengths[0].label : "Waist length");
   const [withFibre, setWithFibre] = useState(false);
   const [withGlueless, setWithGlueless] = useState(false);
   const [withColorCustomization, setWithColorCustomization] = useState(false);
 
-  // Fix: declare fibreIncluded first, then compute dependent variables.
   const fibreIncluded = fibrePrice === undefined;
   const getBasePrice = () => {
     if (lengths) {
@@ -114,16 +116,9 @@ export default function LocProductCard({
 
   return (
     <div className="bg-white rounded-[26px] p-5 pb-6 drop-shadow-md flex flex-col items-center mx-auto mb-8 w-full max-w-[350px] shadow relative">
-      <img
-        src={img}
-        alt={title}
-        className="rounded-[20px] w-full object-cover h-[240px] max-h-[240px] border-4 border-[#fff] shadow mb-3"
-        style={{ objectPosition: "center" }}
-      />
-      <h3 className="font-bold text-xl text-[#EA6683] text-center mb-2">{title}</h3>
-      {description && (
-        <div className="text-sm text-gray-700 text-center mb-2">{description}</div>
-      )}
+      <ProductImage img={img} title={title} />
+      <ProductTitle title={title} />
+      <ProductDescription description={description} />
       <ColourSelector
         colors={colors}
         color={color}
@@ -156,17 +151,11 @@ export default function LocProductCard({
         title={title}
       />
       <div className="w-full mt-4 flex flex-col items-center">
-        <div className="font-bold text-lg text-[#EA6683] mb-2">
-          Total: R{totalPrice}
-        </div>
-        <Button
-          className="bg-[#EA6683] text-white w-full py-2 rounded-lg font-bold flex items-center gap-2 hover:bg-[#EA6683]/90 mt-0"
-          onClick={handleAddToCart}
-        >
-          <ShoppingBag className="w-5 h-5" />
-          Add To Cart
-        </Button>
+        <ProductTotalPrice totalPrice={totalPrice} />
+        <AddToCartButton onClick={handleAddToCart} />
       </div>
     </div>
   );
-}
+};
+
+export default LocProductCard;
