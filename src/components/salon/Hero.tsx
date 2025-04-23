@@ -1,6 +1,8 @@
+
 import React from "react";
-import { Button } from "./Button";
+import { Button } from "@/components/ui/button";
 import { Navbar } from "./Navbar";
+import { useNavigate } from "react-router-dom";
 
 interface HeroProps {
   backgroundImage: string;
@@ -15,24 +17,38 @@ export const Hero: React.FC<HeroProps> = ({
   description,
   logoImage,
 }) => {
+  const navigate = useNavigate();
+
   return (
     <header className="relative">
       <img
         src={backgroundImage}
         alt=""
-        className="w-full h-[800px] object-cover"
+        className="w-full h-[700px] object-cover"
       />
       <div className="absolute flex flex-col justify-between inset-0">
         <Navbar logo={logoImage} />
 
-        <div className="flex flex-col items-center text-center px-4 pb-16">
-          <h1 className="text-white text-5xl font-bold">{title}</h1>
-          <p className="text-white text-lg font-normal max-w-[600px] mt-4">
+        <div className="flex flex-col items-center text-center px-4 pb-20">
+          <h1 className="text-white text-5xl md:text-6xl font-bold mb-4 tracking-wide">{title}</h1>
+          <p className="text-white text-xl font-normal max-w-[600px] mb-6">
             {description}
           </p>
-          <Button variant="primary" size="lg" className="mt-4">
-            Book Your Appointment Now!
-          </Button>
+          <div className="flex flex-col sm:flex-row gap-4">
+            <Button
+              onClick={() => navigate("/luxury-loc-wigs")}
+              className="bg-[#ff6f91] hover:bg-[#ff6f91]/90 text-white px-8 py-6 text-lg rounded-full"
+            >
+              Shop Wigs
+            </Button>
+            <Button
+              onClick={() => navigate("#booking")}
+              variant="outline"
+              className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-[#ff6f91] px-8 py-6 text-lg rounded-full"
+            >
+              Book Appointment
+            </Button>
+          </div>
         </div>
       </div>
     </header>
