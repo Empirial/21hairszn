@@ -95,8 +95,13 @@ export default function LuxuryLocStyling() {
   const handleClear = () => setCart([]);
 
   return (
-    <div className="min-h-screen w-full bg-white flex flex-col pb-2 pt-3 relative">
-      <main className="flex-1">
+    <div className="min-h-screen bg-white flex flex-col pb-2 pt-3 relative">
+      {/* Cart drawer fixed at top-right */}
+      <div className="fixed top-6 right-6 z-50">
+        <CartDrawer items={cart} onRemove={handleRemove} onClear={handleClear} />
+      </div>
+      {/* Centered main content */}
+      <main className="flex-1 flex flex-col items-center justify-center w-full">
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-[#EA6683]">
             Luxury Loc Styling & Haircare
@@ -105,15 +110,13 @@ export default function LuxuryLocStyling() {
             Select your preferred loc style, colour, and length! Add fibre for even more glam. All prices and options below—simply add to cart to begin your luxury hair journey.
           </p>
         </div>
-
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-10 px-3">
+        <div className="w-full max-w-7xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-10 px-3 auto-rows-fr items-start justify-items-center">
           {LOCPRODUCTS.map((prod, idx) => (
             <LocProductCard key={prod.title + idx} {...prod} onAddToCart={handleAddToCart} />
           ))}
         </div>
       </main>
-
-      <CartDrawer items={cart} onRemove={handleRemove} onClear={handleClear} />
+      {/* No navbar rendered on this page */}
     </div>
   );
 }
