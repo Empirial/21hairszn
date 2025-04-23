@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Hero } from "@/components/salon/Hero";
 import { AboutSection } from "@/components/salon/AboutSection";
@@ -44,7 +45,7 @@ const Index = () => {
       primaryButtonText: "Book Now",
       secondaryButtonText: "View More",
       primaryButtonAction: () => (window.location.href = "#booking"),
-      secondaryButtonAction: () => (window.location.href = "#details"),
+      secondaryButtonAction: () => (window.location.href = "/luxury-loc-styling"),
     },
     {
       id: "4",
@@ -132,3 +133,4 @@ const Index = () => {
 };
 
 export default Index;
+
