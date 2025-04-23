@@ -1,6 +1,6 @@
 
 import React, { useState } from "react";
-import { toast } from "@/hooks/use-toast";
+import { toast } from "@/components/ui/sonner";
 import { cn } from "@/lib/utils";
 import ColourSelector from "./LocProductCard/ColourSelector";
 import LengthSelector from "./LocProductCard/LengthSelector";
@@ -107,7 +107,7 @@ const LocProductCard: React.FC<LocProductCardProps> = ({
       glueless: withGlueless,
       colorCustomized: withColorCustomization
     });
-    toast.success("Added to cart!");
+    toast("Added to cart!");
   };
 
   const lengthOptions = lengths
