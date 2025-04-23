@@ -13,7 +13,7 @@ const LOCPRODUCTS = [
     colors: [
       "Black", "Blonde", "White", "Red", "Ginger", "Grey", "Brown"
     ],
-    description: "Lengths: Waist (R850), Butt (R950). Fibre +R400. Colours: Black, Blonde, White, Red, Ginger, Grey, Brown. Price excludes fibre.",
+    description: "Waist length: R850, Butt length: R950. Fibre +R400. Colours: Black, Blonde, White, Red, Ginger, Grey, Brown. Price excludes fibre.",
   },
   {
     img: "/lovable-uploads/6f0453d1-d48e-4639-a35b-92bee07ec251.png",
@@ -24,7 +24,7 @@ const LOCPRODUCTS = [
     colors: [
       "Black", "Blonde", "Ginger", "Brown"
     ],
-    description: "Lengths: Waist (R680), Butt (R800). Fibre +R380. Colours: Black, Blonde, Ginger, Brown. Price excludes fibre.",
+    description: "Waist length: R680, Butt length: R800. Fibre +R380. Colours: Black, Blonde, Ginger, Brown. Price excludes fibre.",
   },
   {
     img: "/lovable-uploads/6f0453d1-d48e-4639-a35b-92bee07ec251.png",
@@ -35,7 +35,7 @@ const LOCPRODUCTS = [
     colors: [
       "Black", "Brown", "Blonde", "White", "Ginger", "Red", "Blue", "Pink", "Ombre (brown, red, maroon)"
     ],
-    description: "Lengths: Waist (R600), Butt (R700). Fibre +R400. Many colours available including ombré blends. Price excludes fibre.",
+    description: "Waist length: R600, Butt length: R700. Fibre +R400. Many colours including ombré. Price excludes fibre.",
   },
   {
     img: "/lovable-uploads/6f0453d1-d48e-4639-a35b-92bee07ec251.png",
@@ -46,7 +46,7 @@ const LOCPRODUCTS = [
     colors: [
       "Black", "Brown", "Blonde", "Red", "Ginger", "White", "Blue", "Pink", "Ombre (blonde, red, maroon)", "Grey"
     ],
-    description: "Lengths: Waist (R650), Butt (R710). Fibre +R350. Extensive colour choices & ombré. Price excludes fibre.",
+    description: "Waist length: R650, Butt length: R710. Fibre +R350. Colour choices & ombré. Price excludes fibre.",
   },
   {
     img: "/lovable-uploads/6f0453d1-d48e-4639-a35b-92bee07ec251.png",
@@ -57,7 +57,7 @@ const LOCPRODUCTS = [
     colors: [
       "Black", "Brown", "Ginger", "Blonde"
     ],
-    description: "Lengths: Waist (R750), Butt (R820). Fibre +R400. Available in Black, Brown, Ginger, Blonde. Price excludes fibre.",
+    description: "Waist length: R750, Butt length: R820. Fibre +R400. Available in Black, Brown, Ginger, Blonde. Price excludes fibre.",
   },
   {
     img: "/lovable-uploads/6f0453d1-d48e-4639-a35b-92bee07ec251.png",
@@ -68,7 +68,7 @@ const LOCPRODUCTS = [
     colors: [
       "Black", "Blonde", "White", "Red", "Ginger", "Grey", "Brown"
     ],
-    description: "Lengths: Waist (R780), Butt (R880). Fibre +R400. Black, Blonde, White, Red, Ginger, Grey, Brown. Price excludes fibre.",
+    description: "Waist length: R780, Butt length: R880. Fibre +R400. Black, Blonde, White, Red, Ginger, Grey, Brown. Price excludes fibre.",
   },
   {
     img: "/lovable-uploads/6f0453d1-d48e-4639-a35b-92bee07ec251.png",
@@ -79,7 +79,7 @@ const LOCPRODUCTS = [
     colors: [
       "Black", "Brown"
     ],
-    description: "Lengths: Waist (R2250), Butt (R2850). Colours: Black, Brown. Custom colours available for an extra fee. Price includes fibre.",
+    description: "Waist length: R2250, Butt length: R2850. Colours: Black, Brown. Custom colours for a fee. Fibre included.",
   },
 ];
 
@@ -95,28 +95,30 @@ export default function LuxuryLocStyling() {
   const handleClear = () => setCart([]);
 
   return (
-    <div className="min-h-screen bg-white flex flex-col pb-2 pt-3 relative">
-      {/* Cart drawer fixed at top-right */}
-      <div className="fixed top-6 right-6 z-50">
-        <CartDrawer items={cart} onRemove={handleRemove} onClear={handleClear} />
-      </div>
-      {/* Centered main content */}
-      <main className="flex-1 flex flex-col items-center justify-center w-full">
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-[#EA6683]">
-            Luxury Loc Styling & Haircare
-          </h1>
-          <p className="text-lg text-gray-700 mt-2 max-w-2xl mx-auto px-4">
-            Select your preferred loc style, colour, and length! Add fibre for even more glam. All prices and options below—simply add to cart to begin your luxury hair journey.
-          </p>
+    <div className="min-h-screen bg-white flex flex-col px-2 pb-8 pt-3 relative">
+      {/* Cart fixed at the very top & centered */}
+      <div className="flex w-full items-center justify-center mt-2 mb-7 z-50 relative">
+        <div className="relative">
+          <CartDrawer items={cart} onRemove={handleRemove} onClear={handleClear} />
         </div>
-        <div className="w-full max-w-7xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-10 px-3 auto-rows-fr items-start justify-items-center">
+      </div>
+      {/* Page Heading and Description */}
+      <div className="text-center mb-8">
+        <h1 className="text-4xl font-extrabold text-[#EA6683] drop-shadow-sm">
+          Luxury Loc Styling & Haircare
+        </h1>
+        <p className="text-lg text-gray-700 mt-2 max-w-2xl mx-auto px-4 font-medium">
+          Select your preferred loc style, colour, and length! Add fibre for more glam. All prices below—simply add your favorite to the cart to begin your luxury hair journey.
+        </p>
+      </div>
+      {/* Product grid, fully auto-aligned */}
+      <main className="flex-1 flex flex-col items-center w-full">
+        <div className="w-full max-w-7xl grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-8 px-3 auto-rows-fr items-start justify-items-center">
           {LOCPRODUCTS.map((prod, idx) => (
             <LocProductCard key={prod.title + idx} {...prod} onAddToCart={handleAddToCart} />
           ))}
         </div>
       </main>
-      {/* No navbar rendered on this page */}
     </div>
   );
 }
