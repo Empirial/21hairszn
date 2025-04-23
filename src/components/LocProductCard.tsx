@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React from "react";
 import { toast } from "@/components/ui/sonner";
 import { cn } from "@/lib/utils";
 import ColourSelector from "./LocProductCard/ColourSelector";
@@ -11,6 +11,7 @@ import ProductTitle from "./LocProductCard/ProductTitle";
 import ProductDescription from "./LocProductCard/ProductDescription";
 import ProductTotalPrice from "./LocProductCard/ProductTotalPrice";
 import AddToCartButton from "./LocProductCard/AddToCartButton";
+import { useLocProductCard } from "./LocProductCard/useLocProductCard";
 
 export type LengthOption = {
   label: string;
@@ -75,44 +76,45 @@ const LocProductCard: React.FC<LocProductCardProps> = ({
   colorCustomizationPrice,
   gluelessPrice,
 }) => {
-  const [color, setColor] = useState(colors[0]);
-  const [selectedLength, setSelectedLength] = useState(lengths ? lengths[0].label : "Waist length");
-  const [withFibre, setWithFibre] = useState(false);
-  const [withGlueless, setWithGlueless] = useState(false);
-  const [withColorCustomization, setWithColorCustomization] = useState(false);
-
-  const fibreIncluded = fibrePrice === undefined;
-  const getBasePrice = () => {
-    if (lengths) {
-      const selected = lengths.find(l => l.label === selectedLength);
-      return selected ? selected.price : lengths[0].price;
-    }
-    return selectedLength.toLowerCase().includes("butt") ? priceButt : priceWaist;
-  };
-  const basePrice = getBasePrice();
-  const fibreVal = withFibre && !fibreIncluded ? fibrePrice || 0 : 0;
-  const gluelessVal = withGlueless && isWig ? gluelessPrice || 0 : 0;
-  const colorCustomizationVal = withColorCustomization && isWig ? colorCustomizationPrice || 0 : 0;
-  const totalPrice = basePrice + fibreVal + gluelessVal + colorCustomizationVal;
+  const {
+    state: {
+      color,
+      selectedLength,
+      withFibre,
+      withGlueless,
+      withColorCustomization
+    },
+    setters: {
+      setColor,
+      setSelectedLength,
+      setWithFibre,
+      setWithGlueless,
+      setWithColorCustomization
+    },
+    computed: {
+      basePrice,
+      fibreIncluded,
+      totalPrice,
+      lengthOptions
+    },
+    createCartItem
+  } = useLocProductCard({
+    img,
+    title,
+    priceWaist,
+    priceButt,
+    fibrePrice,
+    colors,
+    lengths,
+    isWig,
+    colorCustomizationPrice,
+    gluelessPrice,
+  });
 
   const handleAddToCart = () => {
-    onAddToCart({
-      title,
-      color,
-      length: selectedLength,
-      fibre: fibreIncluded || withFibre,
-      price: totalPrice,
-      img,
-      isWig,
-      glueless: withGlueless,
-      colorCustomized: withColorCustomization
-    });
+    onAddToCart(createCartItem());
     toast("Added to cart!");
   };
-
-  const lengthOptions = lengths
-    ? lengths.map(l => l.label)
-    : ["Waist length", "Butt length"];
 
   return (
     <div className="bg-white rounded-[26px] p-5 pb-6 drop-shadow-md flex flex-col items-center mx-auto mb-8 w-full max-w-[350px] shadow relative">
