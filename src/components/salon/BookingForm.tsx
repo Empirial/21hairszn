@@ -1,8 +1,15 @@
+
 import React, { useState } from "react";
 import { Button } from "./Button";
 
 interface BookingFormProps {
   onSubmit: (formData: BookingFormData) => void;
+  selectedProduct?: {
+    title: string;
+    color: string;
+    length: string;
+    price: number;
+  };
 }
 
 export interface BookingFormData {
@@ -13,17 +20,24 @@ export interface BookingFormData {
   date: string;
   time: string;
   message: string;
+  productDetails?: {
+    title: string;
+    color: string;
+    length: string;
+    price: number;
+  };
 }
 
-export const BookingForm: React.FC<BookingFormProps> = ({ onSubmit }) => {
+export const BookingForm: React.FC<BookingFormProps> = ({ onSubmit, selectedProduct }) => {
   const [formData, setFormData] = useState<BookingFormData>({
     name: "",
     email: "",
     phone: "",
-    service: "",
+    service: selectedProduct ? "luxury-loc-styling" : "",
     date: "",
     time: "",
-    message: "",
+    message: selectedProduct ? `I'm interested in booking for ${selectedProduct.title} in ${selectedProduct.color}, ${selectedProduct.length} length.` : "",
+    productDetails: selectedProduct,
   });
 
   const [errors, setErrors] = useState<Partial<BookingFormData>>({});
@@ -90,9 +104,9 @@ export const BookingForm: React.FC<BookingFormProps> = ({ onSubmit }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-md">
-      <h3 className="text-[#ff6f91] text-2xl font-bold mb-4">
-        Book Your Appointment
+    <form onSubmit={handleSubmit} className="bg-white p-4 md:p-6 rounded-lg shadow-md">
+      <h3 className="text-[#ff6f91] text-xl md:text-2xl font-bold mb-4">
+        {selectedProduct ? `Book Your ${selectedProduct.title}` : "Book Your Appointment"}
       </h3>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
@@ -161,12 +175,13 @@ export const BookingForm: React.FC<BookingFormProps> = ({ onSubmit }) => {
             className={`w-full p-2 border rounded-md ${errors.service ? "border-red-500" : "border-gray-300"}`}
           >
             <option value="">Select a service</option>
-            <option value="luxury-extension-locs">Luxury Extension Locs</option>
-            <option value="luxury-wigs-bundles">Luxury Wigs And Bundles</option>
-            <option value="luxury-loc-styling">
-              Luxury Loc Styling & Haircare
-            </option>
-            <option value="luxury-loc-wigs">Luxury Loc Wigs</option>
+            <option value="ocean-locs">Ocean Locs</option>
+            <option value="jungle-locs">Jungle Locs</option>
+            <option value="jumbo-distressed-locs">Jumbo Distressed Locs</option>
+            <option value="distressed-locs">Distressed Locs</option>
+            <option value="fringe-locs">Fringe Locs</option>
+            <option value="bohemian-locs">Bohemian Locs</option>
+            <option value="human-hair-bohemian-locs">Human Hair Bohemian Locs</option>
           </select>
           {errors.service && (
             <p className="text-red-500 text-sm mt-1">{errors.service}</p>
@@ -210,6 +225,26 @@ export const BookingForm: React.FC<BookingFormProps> = ({ onSubmit }) => {
         </div>
       </div>
 
+      {selectedProduct && (
+        <div className="mb-4 p-3 bg-[#f7e6e6] rounded-md">
+          <h4 className="font-semibold text-[#333] mb-2">Selected Product Details:</h4>
+          <div className="text-sm grid grid-cols-2 gap-2">
+            <div>
+              <span className="font-medium">Style:</span> {selectedProduct.title}
+            </div>
+            <div>
+              <span className="font-medium">Color:</span> {selectedProduct.color}
+            </div>
+            <div>
+              <span className="font-medium">Length:</span> {selectedProduct.length}
+            </div>
+            <div>
+              <span className="font-medium">Price:</span> R{selectedProduct.price}
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="mb-4">
         <label htmlFor="message" className="block text-[#333] mb-1">
           Additional Information
@@ -225,8 +260,14 @@ export const BookingForm: React.FC<BookingFormProps> = ({ onSubmit }) => {
       </div>
 
       <Button type="submit" variant="primary" size="lg" className="w-full">
-        Book Appointment
+        {selectedProduct ? "Book Now" : "Book Appointment"}
       </Button>
+      
+      {selectedProduct && (
+        <p className="text-sm text-center mt-3 text-gray-600">
+          If you're done shopping, proceed to checkout your cart.
+        </p>
+      )}
     </form>
   );
 };

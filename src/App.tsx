@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -7,6 +8,8 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import LuxuryLocStyling from "./pages/LuxuryLocStyling";
 import LuxuryLocWigs from "./pages/LuxuryLocWigs";
+import LuxuryExtensionLocs from "./pages/LuxuryExtensionLocs";
+import Checkout from "./pages/Checkout";
 
 const queryClient = new QueryClient();
 
@@ -20,6 +23,8 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/luxury-loc-styling" element={<LuxuryLocStyling />} />
           <Route path="/luxury-loc-wigs" element={<LuxuryLocWigs />} />
+          <Route path="/luxury-extension-locs" element={<LuxuryExtensionLocs />} />
+          <Route path="/checkout" element={<Checkout />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

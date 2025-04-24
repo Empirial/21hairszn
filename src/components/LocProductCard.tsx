@@ -43,6 +43,7 @@ interface LocProductCardProps {
   isWig?: boolean;
   colorCustomizationPrice?: number;
   gluelessPrice?: number;
+  bookMode?: boolean;
 }
 
 const getDisplayColour = (color: string) => {
@@ -75,6 +76,7 @@ const LocProductCard: React.FC<LocProductCardProps> = ({
   isWig = false,
   colorCustomizationPrice,
   gluelessPrice,
+  bookMode = false,
 }) => {
   const {
     state: {
@@ -113,11 +115,13 @@ const LocProductCard: React.FC<LocProductCardProps> = ({
 
   const handleAddToCart = () => {
     onAddToCart(createCartItem());
-    toast("Added to cart!");
+    if (!bookMode) {
+      toast("Added to cart!");
+    }
   };
 
   return (
-    <div className="bg-white rounded-[26px] p-5 pb-6 drop-shadow-md flex flex-col items-center mx-auto mb-8 w-full max-w-[350px] shadow relative">
+    <div className="bg-white rounded-[26px] p-4 sm:p-5 pb-6 drop-shadow-md flex flex-col items-center w-full h-full max-w-[350px] shadow relative">
       <ProductImage img={img} title={title} />
       <ProductTitle title={title} />
       <ProductDescription description={description} />
@@ -154,7 +158,10 @@ const LocProductCard: React.FC<LocProductCardProps> = ({
       />
       <div className="w-full mt-4 flex flex-col items-center">
         <ProductTotalPrice totalPrice={totalPrice} />
-        <AddToCartButton onClick={handleAddToCart} />
+        <AddToCartButton 
+          onClick={handleAddToCart} 
+          bookMode={bookMode} 
+        />
       </div>
     </div>
   );

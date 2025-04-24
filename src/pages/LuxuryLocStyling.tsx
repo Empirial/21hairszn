@@ -1,7 +1,13 @@
 
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import LocProductCard, { CartItem } from "@/components/LocProductCard";
 import CartDrawer from "@/components/CartDrawer";
+import { Button } from "@/components/ui/button";
+import { ArrowLeft } from "lucide-react";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { BookingForm, BookingFormData } from "@/components/salon/BookingForm";
+import { toast } from "sonner";
 
 const LOCPRODUCTS = [
   {
@@ -84,41 +90,115 @@ const LOCPRODUCTS = [
 ];
 
 export default function LuxuryLocStyling() {
+  const navigate = useNavigate();
   const [cart, setCart] = useState<CartItem[]>([]);
+  const [bookingProduct, setBookingProduct] = useState<CartItem | null>(null);
+  const [bookingDialogOpen, setBookingDialogOpen] = useState(false);
+
+  const handleBookNow = (item: CartItem) => {
+    setBookingProduct(item);
+    setBookingDialogOpen(true);
+  };
+
+  const handleBookingSubmit = (formData: BookingFormData) => {
+    console.log("Booking submitted:", formData);
+    toast.success("Your booking has been submitted!");
+    setBookingDialogOpen(false);
+    setBookingProduct(null);
+  };
 
   const handleAddToCart = (item: CartItem) => {
     setCart((prev) => [...prev, item]);
+    toast.success(`${item.title} added to cart!`);
   };
+  
   const handleRemove = (idx: number) => {
     setCart((prev) => prev.filter((_, i) => i !== idx));
   };
+  
   const handleClear = () => setCart([]);
 
   return (
-    <div className="min-h-screen bg-white flex flex-col px-2 pb-8 pt-3 relative">
+    <div className="min-h-screen bg-white flex flex-col px-2 md:px-4 pb-8 pt-3 relative">
       {/* Cart fixed at the very top & centered */}
       <div className="flex w-full items-center justify-center mt-2 mb-7 z-50 relative">
         <div className="relative">
           <CartDrawer items={cart} onRemove={handleRemove} onClear={handleClear} />
         </div>
       </div>
-      {/* Page Heading and Description */}
-      <div className="text-center mb-8">
-        <h1 className="text-4xl font-extrabold text-[#EA6683] drop-shadow-sm">
+      
+      {/* Page Heading and Description with Back Button */}
+      <div className="flex flex-col items-center mb-8 relative">
+        <Button 
+          variant="outline" 
+          size="sm" 
+          className="absolute left-0 top-0 flex items-center gap-1"
+          onClick={() => navigate(-1)}
+        >
+          <ArrowLeft className="h-4 w-4" />
+          Back
+        </Button>
+        
+        <h1 className="text-3xl md:text-4xl font-extrabold text-[#EA6683] drop-shadow-sm mt-8 text-center">
           Luxury Loc Styling & Haircare
         </h1>
-        <p className="text-lg text-gray-700 mt-2 max-w-2xl mx-auto px-4 font-medium">
-          Select your preferred loc style, colour, and length! Add fibre for more glam. All prices below—simply add your favorite to the cart to begin your luxury hair journey.
+        <p className="text-md md:text-lg text-gray-700 mt-2 max-w-2xl mx-auto px-4 font-medium text-center">
+          Select your preferred loc style, colour, and length! Add fibre for more glam. All prices below—simply book your favorite to begin your luxury hair journey.
         </p>
       </div>
+      
       {/* Product grid, fully auto-aligned */}
       <main className="flex-1 flex flex-col items-center w-full">
-        <div className="w-full max-w-7xl grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-8 px-3 auto-rows-fr items-start justify-items-center">
+        <div className="w-full max-w-7xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 px-3 items-stretch justify-items-center">
           {LOCPRODUCTS.map((prod, idx) => (
-            <LocProductCard key={prod.title + idx} {...prod} onAddToCart={handleAddToCart} />
+            <LocProductCard 
+              key={prod.title + idx} 
+              {...prod} 
+              onAddToCart={handleBookNow}
+              bookMode={true}
+            />
           ))}
         </div>
       </main>
+      
+      {/* Booking Dialog */}
+      <Dialog open={bookingDialogOpen} onOpenChange={setBookingDialogOpen}>
+        <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
+          {bookingProduct && (
+            <div className="py-2">
+              <BookingForm 
+                onSubmit={handleBookingSubmit} 
+                selectedProduct={{
+                  title: bookingProduct.title,
+                  color: bookingProduct.color,
+                  length: bookingProduct.length,
+                  price: bookingProduct.price
+                }}
+              />
+              <div className="mt-4 flex justify-center">
+                <Button 
+                  variant="outline" 
+                  className="mr-2"
+                  onClick={() => {
+                    if (bookingProduct) {
+                      handleAddToCart(bookingProduct);
+                      setBookingDialogOpen(false);
+                    }
+                  }}
+                >
+                  Add to Cart Instead
+                </Button>
+                <Button 
+                  variant="outline" 
+                  onClick={() => navigate('/checkout')}
+                >
+                  Go to Checkout
+                </Button>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

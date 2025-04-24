@@ -22,35 +22,14 @@ const Index = () => {
     toast("Booking request submitted! We will contact you shortly.");
   };
 
-  // Unified discover section data (categories + services)
+  // Unified discover section data (only services, removed categories)
   const discoverItems = [
-    {
-      id: "cat1",
-      image: "https://placehold.co/600x600/f7e6e6/ff6f91",
-      title: "Luxury Wigs",
-      link: "/luxury-loc-wigs",
-      label: "Category",
-    },
-    {
-      id: "cat2",
-      image: "https://placehold.co/600x600/f7e6e6/ff6f91",
-      title: "Hair Extensions",
-      link: "/luxury-loc-styling",
-      label: "Category",
-    },
-    {
-      id: "cat3",
-      image: "https://placehold.co/600x600/f7e6e6/ff6f91",
-      title: "Styling Services",
-      link: "/luxury-loc-styling",
-      label: "Category",
-    },
     {
       id: "srv1",
       image: "https://placehold.co/600x400/f7e6e6/ff6f91",
       title: "Luxury Extension Locs",
       description: "Premium extension locs for a natural look.",
-      link: "/luxury-loc-styling",
+      link: "/luxury-extension-locs",
       label: "Service",
     },
     {
@@ -109,7 +88,6 @@ const Index = () => {
       price: "6000",
       link: "/luxury-loc-wigs",
     },
-    // You can add combos here if available
   ];
 
   // Testimonials data
@@ -173,10 +151,10 @@ const Index = () => {
         logoImage="https://placehold.co/100x50/ffffff/ffffff"
       />
 
-      {/* Shop & Discover Section: combined category + services */}
+      {/* Shop & Discover Section: only services now */}
       <ShopDiscoverSection
         title="Discover Our Collection & Services"
-        subtitle="Shop our categories and luxury hair services — all in one place."
+        subtitle="Shop our luxury hair services — all in one place."
         items={discoverItems}
       />
 
@@ -187,10 +165,12 @@ const Index = () => {
         products={featuredProducts}
       />
 
-      {/* About Section */}
+      {/* About Section - centered with no image */}
       <AboutSection
         title="Who's this Divaa?"
         description="Where hair meets Art. 21HairSzn stylists and artisans are dedicated to creating one-of-a-kind looks that reflect your unique personality & style. Don't be shy, get into it & explore our wide range of unique styles 💋"
+        centerAligned={true}
+        hideImage={true}
       />
 
       {/* Testimonials Section */}
