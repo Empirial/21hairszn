@@ -1,5 +1,9 @@
+
 import React, { useState } from "react";
-import { Button } from "./Button";
+import { useNavigate } from "react-router-dom";
+import { ShoppingCart } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import CartDrawer from "@/components/CartDrawer";
 
 interface NavbarProps {
   logo: string;
@@ -7,72 +11,42 @@ interface NavbarProps {
 }
 
 export const Navbar: React.FC<NavbarProps> = ({ logo, logoAlt = "" }) => {
+  const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
+  const [cart, setCart] = useState([]);
 
   return (
-    <nav className="flex justify-between items-center p-4">
-      <img src={logo} alt={logoAlt} className="h-[50px]" />
+    <nav className="fixed top-4 left-1/2 -translate-x-1/2 w-[95%] max-w-4xl bg-white/90 backdrop-blur-sm rounded-full shadow-lg z-50 py-2 px-6">
+      <div className="flex items-center justify-between">
+        <img src="/lovable-uploads/7aeec13b-93a5-42de-a333-6945090ecfae.png" alt="21HairSZN" className="h-12" />
+        
+        <div className="hidden md:flex items-center space-x-8">
+          <a href="/" className="text-gray-700 hover:text-[#EA6683] transition-colors">Home</a>
+          <a href="/luxury-loc-wigs" className="text-gray-700 hover:text-[#EA6683] transition-colors">Wigs</a>
+          <a href="/luxury-loc-styling" className="text-gray-700 hover:text-[#EA6683] transition-colors">Styling</a>
+          <a href="/luxury-extension-locs" className="text-gray-700 hover:text-[#EA6683] transition-colors">Extensions</a>
+        </div>
 
-      {/* Mobile Menu Button */}
-      <div className="hidden items-center max-md:flex">
-        <button onClick={toggleMenu} aria-label="Toggle menu">
-          <i className="ti ti-menu text-white text-2xl" />
+        <CartDrawer items={cart} onRemove={() => {}} onClear={() => {}} />
+
+        <button
+          className="md:hidden text-gray-700"
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+        >
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16m-7 6h7" />
+          </svg>
         </button>
       </div>
 
-      {/* Desktop Navigation */}
-      <div className="flex gap-x-6 max-md:hidden">
-        <a href="#home" className="text-white text-base font-medium">
-          Home Page
-        </a>
-        <a href="#services" className="text-white text-base font-medium">
-          Our Services
-        </a>
-        <a href="#booking" className="text-white text-base font-medium">
-          Book Now
-        </a>
-        <a href="#contact" className="text-white text-base font-medium">
-          Contact Us
-        </a>
-      </div>
-
-      {/* Book Now Button */}
-      <Button variant="primary" size="md">
-        Book Now!
-      </Button>
-
-      {/* Mobile Menu (Overlay) */}
+      {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-80 z-50 md:hidden">
-          <div className="flex flex-col items-center justify-center h-full">
-            <button
-              onClick={toggleMenu}
-              className="absolute top-4 right-4"
-              aria-label="Close menu"
-            >
-              <i className="ti ti-x text-white text-2xl" />
-            </button>
-            <div className="flex flex-col items-center gap-y-6">
-              <a href="#home" className="text-white text-xl font-medium">
-                Home Page
-              </a>
-              <a href="#services" className="text-white text-xl font-medium">
-                Our Services
-              </a>
-              <a href="#booking" className="text-white text-xl font-medium">
-                Book Now
-              </a>
-              <a href="#contact" className="text-white text-xl font-medium">
-                Contact Us
-              </a>
-              <Button variant="primary" size="lg" className="mt-4">
-                Book Now!
-              </Button>
-            </div>
+        <div className="md:hidden absolute top-full left-0 right-0 mt-2 bg-white rounded-lg shadow-lg p-4">
+          <div className="flex flex-col space-y-3">
+            <a href="/" className="text-gray-700 hover:text-[#EA6683] transition-colors">Home</a>
+            <a href="/luxury-loc-wigs" className="text-gray-700 hover:text-[#EA6683] transition-colors">Wigs</a>
+            <a href="/luxury-loc-styling" className="text-gray-700 hover:text-[#EA6683] transition-colors">Styling</a>
+            <a href="/luxury-extension-locs" className="text-gray-700 hover:text-[#EA6683] transition-colors">Extensions</a>
           </div>
         </div>
       )}
