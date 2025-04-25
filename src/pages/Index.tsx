@@ -1,15 +1,17 @@
+
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Hero } from "@/components/salon/Hero";
 import { AboutSection } from "@/components/salon/AboutSection";
+import { PromotionSection } from "@/components/salon/PromotionSection";
+import { Footer } from "@/components/salon/Footer";
 import { ShopDiscoverSection } from "@/components/salon/ShopDiscoverSection";
 import { SocialMediaLinks } from "@/components/salon/SocialMediaLinks";
-import { Footer } from "@/components/salon/Footer";
 
 const Index = () => {
   const navigate = useNavigate();
   
-  // Unified discover section data
+  // Unified discover section data (only services, removed categories)
   const discoverItems = [
     {
       id: "srv1",
@@ -78,9 +80,9 @@ const Index = () => {
     <div className="bg-[#fff]">
       <Hero
         backgroundImage="/lovable-uploads/d588347f-80d0-40be-af92-b56d763ec32d.png"
-        title="Premium Hair Styling"
-        description="Experience the Art of Hair. Discover our luxury collection of wigs, extensions, and styling services."
-        logoImage="/lovable-uploads/ecc6b157-fe4a-4a20-acf8-ce6aad66831b.png"
+        title="21 HAIR SZN"
+        description="Premium Quality Hair Products & Services"
+        logoImage="/lovable-uploads/7aeec13b-93a5-42de-a333-6945090ecfae.png"
       />
 
       <ShopDiscoverSection
@@ -94,6 +96,13 @@ const Index = () => {
         description="Where hair meets Art. 21HairSzn stylists and artisans are dedicated to creating one-of-a-kind looks that reflect your unique personality & style. Don't be shy, get into it & explore our wide range of unique styles 💋"
         centerAligned={true}
         hideImage={true}
+      />
+
+      <PromotionSection
+        title="Transform Your Hair, Transform Your Confidence."
+        subtitle="Get 10% off your first order with code: HAIRSZN10"
+        buttonText="Shop Now"
+        onButtonClick={() => navigate("/luxury-loc-wigs")}
       />
 
       <SocialMediaLinks />
