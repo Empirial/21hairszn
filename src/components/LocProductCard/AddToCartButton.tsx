@@ -10,7 +10,7 @@ interface AddToCartButtonProps {
 
 const AddToCartButton: React.FC<AddToCartButtonProps> = ({ onClick, bookMode = false }) => (
   <Button
-    className={`${bookMode ? 'bg-[#6E59A5]' : 'bg-[#EA6683]'} text-white w-full py-2 rounded-lg font-bold flex items-center gap-2 hover:opacity-90 mt-0`}
+    className={`${bookMode ? 'bg-[#6E59A5]' : 'bg-[#EA6683]'} text-white w-full py-2 rounded-lg font-bold flex items-center justify-center gap-2 hover:opacity-90 mt-0`}
     onClick={onClick}
   >
     {bookMode ? (

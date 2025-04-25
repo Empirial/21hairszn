@@ -1,11 +1,10 @@
+
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Hero } from "@/components/salon/Hero";
 import { AboutSection } from "@/components/salon/AboutSection";
 import { PromotionSection } from "@/components/salon/PromotionSection";
 import { Footer } from "@/components/salon/Footer";
-import { FeaturedProducts } from "@/components/salon/FeaturedProducts";
-import { Testimonials } from "@/components/salon/Testimonials";
 import { ShopDiscoverSection } from "@/components/salon/ShopDiscoverSection";
 import { SocialMediaLinks } from "@/components/salon/SocialMediaLinks";
 
@@ -46,60 +45,6 @@ const Index = () => {
       link: "/luxury-loc-wigs",
       label: "Service",
     }
-  ];
-
-  // Only keep true products & combos in featured products
-  const featuredProducts = [
-    {
-      id: "1",
-      image: "https://placehold.co/600x600/f7e6e6/ff6f91",
-      title: "Island Loc Wig",
-      price: "5200",
-      link: "/luxury-loc-wigs",
-    },
-    {
-      id: "2",
-      image: "https://placehold.co/600x600/f7e6e6/ff6f91",
-      title: "Ocean Loc Wig",
-      price: "5800",
-      link: "/luxury-loc-wigs",
-    },
-    {
-      id: "3",
-      image: "https://placehold.co/600x600/f7e6e6/ff6f91",
-      title: "Bohemian Loc Wig",
-      price: "5500",
-      link: "/luxury-loc-wigs",
-    },
-    {
-      id: "4",
-      image: "https://placehold.co/600x600/f7e6e6/ff6f91",
-      title: "Distressed Loc Wig",
-      price: "6000",
-      link: "/luxury-loc-wigs",
-    },
-  ];
-
-  // Testimonials data
-  const testimonials = [
-    {
-      id: "1",
-      content: "The locs from 21HairSZN completely transformed my look. The quality and styling are absolutely amazing!",
-      author: "Jessica K.",
-      role: "Customer",
-    },
-    {
-      id: "2",
-      content: "I've never had such beautiful hair! The service and quality of the products exceeded all my expectations.",
-      author: "Michelle T.",
-      role: "Customer",
-    },
-    {
-      id: "3",
-      content: "My wig fits perfectly and looks completely natural. Everyone keeps asking if it's my real hair!",
-      author: "Samantha P.",
-      role: "Customer",
-    },
   ];
 
   // Footer links
@@ -151,11 +96,6 @@ const Index = () => {
         description="Where hair meets Art. 21HairSzn stylists and artisans are dedicated to creating one-of-a-kind looks that reflect your unique personality & style. Don't be shy, get into it & explore our wide range of unique styles 💋"
         centerAligned={true}
         hideImage={true}
-      />
-
-      <Testimonials 
-        title="What Our Customers Say"
-        testimonials={testimonials}
       />
 
       <PromotionSection

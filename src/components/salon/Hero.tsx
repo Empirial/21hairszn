@@ -3,6 +3,7 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { Navbar } from "./Navbar";
 import { useNavigate } from "react-router-dom";
+import { ShoppingCart } from "lucide-react";
 
 interface HeroProps {
   backgroundImage: string;
@@ -42,11 +43,12 @@ export const Hero: React.FC<HeroProps> = ({
               Shop Wigs
             </Button>
             <Button
-              onClick={() => navigate("#booking")}
+              onClick={() => navigate("/cart")}
               variant="outline"
-              className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-[#ff6f91] px-8 py-6 text-lg rounded-full"
+              className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-[#ff6f91] px-8 py-6 text-lg rounded-full flex items-center"
             >
-              Book Appointment
+              <ShoppingCart className="mr-2" />
+              View Cart
             </Button>
           </div>
         </div>

@@ -9,48 +9,57 @@ import { ArrowLeft } from "lucide-react";
 const EXTENSION_LOC_PRODUCTS = [
   {
     img: "/lovable-uploads/6f0453d1-d48e-4639-a35b-92bee07ec251.png",
-    title: "Classic Extension Locs",
-    priceWaist: 750,
-    priceButt: 850,
+    title: "Jungle Locs",
+    priceWaist: 1080,
+    priceButt: 1180,
     fibrePrice: 350,
     colors: ["Black", "Brown", "Blonde", "Red", "Ginger"],
-    description: "Classic extension locs with a natural look. Choose your length and color.",
+    description: "Premium Jungle Locs extensions. Waist length: R1080, Butt length: R1180. Choose your color and add fibre for a fuller look.",
   },
   {
     img: "/lovable-uploads/6f0453d1-d48e-4639-a35b-92bee07ec251.png",
-    title: "Premium Extension Locs",
-    priceWaist: 850,
-    priceButt: 950,
+    title: "Ocean Locs",
+    priceWaist: 1260,
+    priceButt: 1320,
     fibrePrice: 400,
     colors: ["Black", "Brown", "Blonde", "Red", "Grey"],
-    description: "Premium extension locs for a more luxurious finish. Available in various colors.",
+    description: "Ocean Locs extensions with a natural flow. Waist length: R1260, Butt length: R1320. Available in various colors.",
   },
   {
     img: "/lovable-uploads/6f0453d1-d48e-4639-a35b-92bee07ec251.png",
-    title: "Goddess Extension Locs",
-    priceWaist: 950,
+    title: "Distressed Locs",
+    priceWaist: 980,
     priceButt: 1050,
     fibrePrice: 400,
     colors: ["Black", "Brown", "Blonde", "Red"],
-    description: "Beautiful goddess extension locs with a fuller look. Select your perfect style.",
+    description: "Shoulder length: R800, Waist length: R980, Butt length: R1050. Select your perfect style and color.",
   },
   {
     img: "/lovable-uploads/6f0453d1-d48e-4639-a35b-92bee07ec251.png",
-    title: "Natural Extension Locs",
-    priceWaist: 800,
-    priceButt: 900,
+    title: "Faux Locs",
+    priceWaist: 950,
+    priceButt: 1050,
     fibrePrice: 375,
     colors: ["Black", "Brown", "Blonde"],
-    description: "Natural-looking extension locs that blend seamlessly with your own hair.",
+    description: "Faux Locs extensions. Waist length: R950, Butt length: R1050. Natural-looking that blend seamlessly with your own hair.",
   },
   {
     img: "/lovable-uploads/6f0453d1-d48e-4639-a35b-92bee07ec251.png",
-    title: "Deluxe Extension Locs",
-    priceWaist: 1050,
-    priceButt: 1150,
+    title: "Goddess Locs",
+    priceWaist: 1180,
+    priceButt: 1250,
     fibrePrice: 450,
     colors: ["Black", "Brown", "Blonde", "Grey", "Red"],
-    description: "Our most luxurious extension locs with premium materials and styling.",
+    description: "Goddess Locs extensions. Waist length: R1180, Butt length: R1250. Our most luxurious extension locs with premium materials.",
+  },
+  {
+    img: "/lovable-uploads/6f0453d1-d48e-4639-a35b-92bee07ec251.png",
+    title: "Bohemian Locs",
+    priceWaist: 1180,
+    priceButt: 1300,
+    fibrePrice: 400,
+    colors: ["Black", "Brown", "Blonde", "White", "Red", "Ginger", "Grey"],
+    description: "Bohemian Locs extensions. Waist length: R1180, Butt length: R1300. Available in various colors for your perfect style.",
   }
 ];
 
@@ -58,44 +67,57 @@ export default function LuxuryExtensionLocs() {
   const navigate = useNavigate();
   const [cart, setCart] = useState<CartItem[]>([]);
 
+  // Load cart from localStorage when component mounts
+  React.useEffect(() => {
+    const storedCart = localStorage.getItem('cartItems');
+    if (storedCart) {
+      setCart(JSON.parse(storedCart));
+    }
+  }, []);
+
   const handleAddToCart = (item: CartItem) => {
-    setCart((prev) => [...prev, item]);
+    const newCart = [...cart, item];
+    setCart(newCart);
+    localStorage.setItem('cartItems', JSON.stringify(newCart));
   };
   
   const handleRemove = (idx: number) => {
-    setCart((prev) => prev.filter((_, i) => i !== idx));
+    const newCart = cart.filter((_, i) => i !== idx);
+    setCart(newCart);
+    localStorage.setItem('cartItems', JSON.stringify(newCart));
   };
   
-  const handleClear = () => setCart([]);
+  const handleClear = () => {
+    setCart([]);
+    localStorage.setItem('cartItems', JSON.stringify([]));
+  };
 
   return (
     <div className="min-h-screen bg-white flex flex-col px-2 md:px-4 pb-8 pt-3 relative">
-      {/* Cart fixed at the very top & centered */}
-      <div className="flex w-full items-center justify-center mt-2 mb-7 z-50 relative">
-        <div className="relative">
-          <CartDrawer items={cart} onRemove={handleRemove} onClear={handleClear} />
-        </div>
-      </div>
-      
-      {/* Page Heading and Description with Back Button */}
-      <div className="flex flex-col items-center mb-8 relative">
+      {/* Header with back button, title, and cart */}
+      <div className="flex w-full items-center justify-between mt-2 mb-7 z-50 relative">
         <Button 
           variant="outline" 
           size="sm" 
-          className="absolute left-0 top-0 flex items-center gap-1"
+          className="flex items-center gap-1"
           onClick={() => navigate(-1)}
         >
           <ArrowLeft className="h-4 w-4" />
           Back
         </Button>
         
-        <h1 className="text-3xl md:text-4xl font-extrabold text-[#6E59A5] drop-shadow-sm mt-8 text-center">
+        <h1 className="text-3xl md:text-4xl font-extrabold text-[#6E59A5] drop-shadow-sm text-center">
           Luxury Extension Locs
         </h1>
-        <p className="text-md md:text-lg text-gray-700 mt-2 max-w-2xl mx-auto px-4 font-medium text-center">
-          Shop our premium extension locs collection. Choose your favorite color, length, and add fibre for a fuller look. Add your favorites to cart!
-        </p>
+        
+        <div className="relative">
+          <CartDrawer items={cart} onRemove={handleRemove} onClear={handleClear} />
+        </div>
       </div>
+      
+      <p className="text-md md:text-lg text-gray-700 mt-2 max-w-2xl mx-auto px-4 font-medium text-center mb-8">
+        Shop our premium extension locs collection. Choose your favorite color, length, and add fibre for a fuller look. Add your favorites to cart!
+      </p>
       
       {/* Product grid, fully auto-aligned */}
       <main className="flex-1 flex flex-col items-center w-full">

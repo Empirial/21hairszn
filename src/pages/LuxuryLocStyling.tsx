@@ -95,6 +95,14 @@ export default function LuxuryLocStyling() {
   const [bookingProduct, setBookingProduct] = useState<CartItem | null>(null);
   const [bookingDialogOpen, setBookingDialogOpen] = useState(false);
 
+  // Load cart from localStorage when component mounts
+  React.useEffect(() => {
+    const storedCart = localStorage.getItem('cartItems');
+    if (storedCart) {
+      setCart(JSON.parse(storedCart));
+    }
+  }, []);
+
   const handleBookNow = (item: CartItem) => {
     setBookingProduct(item);
     setBookingDialogOpen(true);
@@ -108,44 +116,49 @@ export default function LuxuryLocStyling() {
   };
 
   const handleAddToCart = (item: CartItem) => {
-    setCart((prev) => [...prev, item]);
+    const newCart = [...cart, item];
+    setCart(newCart);
+    localStorage.setItem('cartItems', JSON.stringify(newCart));
     toast.success(`${item.title} added to cart!`);
   };
   
   const handleRemove = (idx: number) => {
-    setCart((prev) => prev.filter((_, i) => i !== idx));
+    const newCart = cart.filter((_, i) => i !== idx);
+    setCart(newCart);
+    localStorage.setItem('cartItems', JSON.stringify(newCart));
   };
   
-  const handleClear = () => setCart([]);
+  const handleClear = () => {
+    setCart([]);
+    localStorage.setItem('cartItems', JSON.stringify([]));
+  };
 
   return (
     <div className="min-h-screen bg-white flex flex-col px-2 md:px-4 pb-8 pt-3 relative">
-      {/* Cart fixed at the very top & centered */}
-      <div className="flex w-full items-center justify-center mt-2 mb-7 z-50 relative">
-        <div className="relative">
-          <CartDrawer items={cart} onRemove={handleRemove} onClear={handleClear} />
-        </div>
-      </div>
-      
-      {/* Page Heading and Description with Back Button */}
-      <div className="flex flex-col items-center mb-8 relative">
+      {/* Header with back button, title, and cart */}
+      <div className="flex w-full items-center justify-between mt-2 mb-7 z-50 relative">
         <Button 
           variant="outline" 
           size="sm" 
-          className="absolute left-0 top-0 flex items-center gap-1"
+          className="flex items-center gap-1"
           onClick={() => navigate(-1)}
         >
           <ArrowLeft className="h-4 w-4" />
           Back
         </Button>
         
-        <h1 className="text-3xl md:text-4xl font-extrabold text-[#EA6683] drop-shadow-sm mt-8 text-center">
+        <h1 className="text-3xl md:text-4xl font-extrabold text-[#EA6683] drop-shadow-sm text-center">
           Luxury Loc Styling & Haircare
         </h1>
-        <p className="text-md md:text-lg text-gray-700 mt-2 max-w-2xl mx-auto px-4 font-medium text-center">
-          Select your preferred loc style, colour, and length! Add fibre for more glam. All prices below—simply book your favorite to begin your luxury hair journey.
-        </p>
+        
+        <div className="relative">
+          <CartDrawer items={cart} onRemove={handleRemove} onClear={handleClear} />
+        </div>
       </div>
+      
+      <p className="text-md md:text-lg text-gray-700 mt-2 max-w-2xl mx-auto px-4 font-medium text-center mb-8">
+        Select your preferred loc style, colour, and length! Add fibre for more glam. All prices below—simply book your favorite to begin your luxury hair journey.
+      </p>
       
       {/* Product grid, fully auto-aligned */}
       <main className="flex-1 flex flex-col items-center w-full">
