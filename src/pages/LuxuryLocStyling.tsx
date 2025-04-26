@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import LocProductCard, { CartItem } from "@/components/LocProductCard";
@@ -8,6 +7,7 @@ import { ArrowLeft } from "lucide-react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { BookingForm, BookingFormData } from "@/components/salon/BookingForm";
 import { toast } from "sonner";
+import { SearchAndFilter } from "@/components/salon/SearchAndFilter";
 
 const LOCPRODUCTS = [
   {
@@ -81,7 +81,7 @@ const LOCPRODUCTS = [
     title: "Human Hair Bohemian Locs",
     priceWaist: 2250,
     priceButt: 2850,
-    fibrePrice: undefined, // Fibre included
+    fibrePrice: undefined,
     colors: [
       "Black", "Brown"
     ],
@@ -94,8 +94,9 @@ export default function LuxuryLocStyling() {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [bookingProduct, setBookingProduct] = useState<CartItem | null>(null);
   const [bookingDialogOpen, setBookingDialogOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [sortOption, setSortOption] = useState("popular");
 
-  // Load cart from localStorage when component mounts
   React.useEffect(() => {
     const storedCart = localStorage.getItem('cartItems');
     if (storedCart) {
@@ -121,21 +122,36 @@ export default function LuxuryLocStyling() {
     localStorage.setItem('cartItems', JSON.stringify(newCart));
     toast.success(`${item.title} added to cart!`);
   };
-  
+
   const handleRemove = (idx: number) => {
     const newCart = cart.filter((_, i) => i !== idx);
     setCart(newCart);
     localStorage.setItem('cartItems', JSON.stringify(newCart));
   };
-  
+
   const handleClear = () => {
     setCart([]);
     localStorage.setItem('cartItems', JSON.stringify([]));
   };
 
+  const filteredProducts = LOCPRODUCTS
+    .filter(prod => 
+      prod.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      prod.description?.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+    .sort((a, b) => {
+      switch (sortOption) {
+        case "priceAsc":
+          return a.priceWaist - b.priceWaist;
+        case "priceDesc":
+          return b.priceWaist - a.priceWaist;
+        default:
+          return 0;
+      }
+    });
+
   return (
     <div className="min-h-screen bg-white flex flex-col px-2 md:px-4 pb-8 pt-3 relative">
-      {/* Header with back button, title, and cart */}
       <div className="flex w-full items-center justify-between mt-2 mb-7 z-50 relative">
         <Button 
           variant="outline" 
@@ -159,11 +175,15 @@ export default function LuxuryLocStyling() {
       <p className="text-md md:text-lg text-gray-700 mt-2 max-w-2xl mx-auto px-4 font-medium text-center mb-8">
         Select your preferred loc style, colour, and length! Add fibre for more glam. All prices below—simply book your favorite to begin your luxury hair journey.
       </p>
+
+      <SearchAndFilter 
+        onSearch={setSearchQuery}
+        onSort={setSortOption}
+      />
       
-      {/* Product grid, fully auto-aligned */}
       <main className="flex-1 flex flex-col items-center w-full">
         <div className="w-full max-w-7xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 px-3 items-stretch justify-items-center">
-          {LOCPRODUCTS.map((prod, idx) => (
+          {filteredProducts.map((prod, idx) => (
             <LocProductCard 
               key={prod.title + idx} 
               {...prod} 
@@ -174,7 +194,6 @@ export default function LuxuryLocStyling() {
         </div>
       </main>
       
-      {/* Booking Dialog */}
       <Dialog open={bookingDialogOpen} onOpenChange={setBookingDialogOpen}>
         <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
           {bookingProduct && (
