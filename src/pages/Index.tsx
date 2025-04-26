@@ -1,4 +1,3 @@
-
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Hero } from "@/components/salon/Hero";
@@ -82,13 +81,7 @@ const Index = () => {
         backgroundImage="/lovable-uploads/d588347f-80d0-40be-af92-b56d763ec32d.png"
         title="21 HAIR SZN"
         description="Premium Quality Hair Products & Services"
-        logoImage="/lovable-uploads/7aeec13b-93a5-42de-a333-6945090ecfae.png"
-      />
-
-      <ShopDiscoverSection
-        title="Discover Our Collection & Services"
-        subtitle="Shop our luxury hair services — all in one place."
-        items={discoverItems}
+        logoImage="/lovable-uploads/2cab34ab-00dc-465c-a606-fedf0fb284c3.png"
       />
 
       <AboutSection
@@ -96,6 +89,12 @@ const Index = () => {
         description="Where hair meets Art. 21HairSzn stylists and artisans are dedicated to creating one-of-a-kind looks that reflect your unique personality & style. Don't be shy, get into it & explore our wide range of unique styles 💋"
         centerAligned={true}
         hideImage={true}
+      />
+
+      <ShopDiscoverSection
+        title="Discover Our Collection & Services"
+        subtitle="Shop our luxury hair services — all in one place."
+        items={discoverItems}
       />
 
       <PromotionSection

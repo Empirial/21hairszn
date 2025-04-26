@@ -1,14 +1,17 @@
+
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Navbar } from "./Navbar";
 import { useNavigate } from "react-router-dom";
 import { ShoppingCart } from "lucide-react";
+
 interface HeroProps {
   backgroundImage: string;
   title: string;
   description: string;
   logoImage: string;
 }
+
 export const Hero: React.FC<HeroProps> = ({
   backgroundImage,
   title,
@@ -19,9 +22,9 @@ export const Hero: React.FC<HeroProps> = ({
   return <header className="relative">
       <img src={backgroundImage} alt="" className="w-full h-[700px] object-cover" />
       <div className="absolute flex flex-col justify-between inset-0">
-        <Navbar logo={logoImage} />
+        <Navbar logo="/lovable-uploads/2cab34ab-00dc-465c-a606-fedf0fb284c3.png" />
 
-        <div className="flex flex-col items-center text-center pb-20 px-[24px]">
+        <div className="flex flex-col items-center text-center pb-32 px-[24px]">
           <h1 className="text-white text-5xl md:text-6xl font-bold mb-4 tracking-wide">{title}</h1>
           <p className="text-white text-xl font-normal max-w-[600px] mb-6">
             {description}
