@@ -1,10 +1,10 @@
-
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import LocProductCard, { CartItem } from "@/components/LocProductCard";
 import CartDrawer from "@/components/CartDrawer";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
+import { SearchAndFilter } from "@/components/salon/SearchAndFilter";
 
 const EXTENSION_LOC_PRODUCTS = [
   {
@@ -66,8 +66,9 @@ const EXTENSION_LOC_PRODUCTS = [
 export default function LuxuryExtensionLocs() {
   const navigate = useNavigate();
   const [cart, setCart] = useState<CartItem[]>([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [sortOption, setSortOption] = useState("popular");
 
-  // Load cart from localStorage when component mounts
   React.useEffect(() => {
     const storedCart = localStorage.getItem('cartItems');
     if (storedCart) {
@@ -92,9 +93,24 @@ export default function LuxuryExtensionLocs() {
     localStorage.setItem('cartItems', JSON.stringify([]));
   };
 
+  const filteredProducts = EXTENSION_LOC_PRODUCTS
+    .filter(prod => 
+      prod.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      prod.description?.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+    .sort((a, b) => {
+      switch (sortOption) {
+        case "priceAsc":
+          return a.priceWaist - b.priceWaist;
+        case "priceDesc":
+          return b.priceWaist - a.priceWaist;
+        default:
+          return 0;
+      }
+    });
+
   return (
     <div className="min-h-screen bg-white flex flex-col px-2 md:px-4 pb-8 pt-3 relative">
-      {/* Header with back button, title, and cart */}
       <div className="flex w-full items-center justify-between mt-2 mb-7 z-50 relative">
         <Button 
           variant="outline" 
@@ -118,11 +134,15 @@ export default function LuxuryExtensionLocs() {
       <p className="text-md md:text-lg text-gray-700 mt-2 max-w-2xl mx-auto px-4 font-medium text-center mb-8">
         Shop our premium extension locs collection. Choose your favorite color, length, and add fibre for a fuller look. Add your favorites to cart!
       </p>
+
+      <SearchAndFilter 
+        onSearch={setSearchQuery}
+        onSort={setSortOption}
+      />
       
-      {/* Product grid, fully auto-aligned */}
       <main className="flex-1 flex flex-col items-center w-full">
         <div className="w-full max-w-7xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 px-3 items-stretch justify-items-center">
-          {EXTENSION_LOC_PRODUCTS.map((prod, idx) => (
+          {filteredProducts.map((prod, idx) => (
             <LocProductCard 
               key={prod.title + idx} 
               {...prod} 
