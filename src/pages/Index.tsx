@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Hero } from "@/components/salon/Hero";
 import { AboutSection } from "@/components/salon/AboutSection";
 import { PromotionSection } from "@/components/salon/PromotionSection";
+import { PolicySection } from "@/components/salon/PolicySection";
 import { Footer } from "@/components/salon/Footer";
 import { ShopDiscoverSection } from "@/components/salon/ShopDiscoverSection";
 import { SocialMediaLinks } from "@/components/salon/SocialMediaLinks";
@@ -38,7 +39,7 @@ const Index = () => {
     },
     {
       id: "srv4",
-      image: "/lovable-uploads/e439fc75-8530-4ee9-b13d-63b79594ad96.png",
+      image: "/lovable-uploads/Cover 2.jpg",
       title: "Luxury Loc Wigs",
       description: "Premium quality loc wigs for a gorgeous look.",
       link: "/luxury-loc-wigs",
@@ -103,6 +104,8 @@ const Index = () => {
         buttonText="Shop Now"
         onButtonClick={() => navigate("/luxury-loc-wigs")}
       />
+
+      <PolicySection />
 
       <SocialMediaLinks />
 

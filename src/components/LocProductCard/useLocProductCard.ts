@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import type { CartItem, LengthOption } from "../LocProductCard";
 

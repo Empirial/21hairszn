@@ -55,7 +55,7 @@ const LOCPRODUCTS = [
     description: "Waist length: R650, Butt length: R710. Fibre +R350. Colour choices & ombré. Price excludes fibre.",
   },
   {
-    img: "/lovable-uploads/Fringle J Locs.jpeg",
+    img: "/lovable-uploads/Fringle J locs.jpeg",
     title: "Fringe Locs",
     priceWaist: 750,
     priceButt: 820,
@@ -77,7 +77,7 @@ const LOCPRODUCTS = [
     description: "Waist length: R780, Butt length: R880. Fibre +R400. Black, Blonde, White, Red, Ginger, Grey, Brown. Price excludes fibre.",
   },
   {
-    img: "/lovable-uploads/logo.jpg",
+    img: "/lovable-uploads/New.jpg",
     title: "Human Hair Bohemian Locs",
     priceWaist: 2250,
     priceButt: 2850,
