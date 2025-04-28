@@ -8,7 +8,7 @@ import { SearchAndFilter } from "@/components/salon/SearchAndFilter";
 
 const LOC_WIG_PRODUCTS = [
   {
-    img: "/lovable-uploads/616110d4-d2cd-4289-bc50-49bc661c5c49.png",
+    img: "/lovable-uploads/Island Wigs.png",
     title: "Island Wig",
     lengths: [
       { label: "20 inch", price: 2650 },
@@ -25,7 +25,7 @@ const LOC_WIG_PRODUCTS = [
     gluelessPrice: 250,
   },
   {
-    img: "/lovable-uploads/78c1dd6a-b68a-4649-9cd7-77bee6e9cb92.png",
+    img: "/lovable-uploads/Bohemian Wig.jpg",
     title: "Bohemian Wig",
     lengths: [
       { label: "18 inch", price: 2400 },
@@ -43,7 +43,7 @@ const LOC_WIG_PRODUCTS = [
     gluelessPrice: 250,
   },
   {
-    img: "/lovable-uploads/616110d4-d2cd-4289-bc50-49bc661c5c49.png",
+    img: "/lovable-uploads/Ocean Loc Wig.png",
     title: "Ocean Loc Wig",
     lengths: [
       { label: "20 inch", price: 2650 },
@@ -60,7 +60,7 @@ const LOC_WIG_PRODUCTS = [
     gluelessPrice: 250,
   },
   {
-    img: "/lovable-uploads/78c1dd6a-b68a-4649-9cd7-77bee6e9cb92.png",
+    img: "/lovable-uploads/Distressed Locs Wig.jpg",
     title: "Distressed Loc Wig",
     lengths: [
       { label: "18 inch", price: 2400 },
@@ -75,36 +75,6 @@ const LOC_WIG_PRODUCTS = [
     description: "Natural-looking Distressed Locs wig.",
     isWig: true,
     colorCustomizationPrice: 600,
-    gluelessPrice: 250,
-  },
-  {
-    img: "/lovable-uploads/616110d4-d2cd-4289-bc50-49bc661c5c49.png",
-    title: "Faux Locs Wig",
-    lengths: [
-      { label: "18 inch", price: 2200 },
-      { label: "20 inch", price: 2400 },
-      { label: "22 inch", price: 2600 },
-      { label: "24 inch", price: 2800 },
-    ],
-    colors: ["Black", "Brown"],
-    description: "Bold Faux Locs wig in timeless colors.",
-    isWig: true,
-    colorCustomizationPrice: 400,
-    gluelessPrice: 250,
-  },
-  {
-    img: "/lovable-uploads/78c1dd6a-b68a-4649-9cd7-77bee6e9cb92.png",
-    title: "Goddess Locs Wig",
-    lengths: [
-      { label: "18 inch", price: 2300 },
-      { label: "20 inch", price: 2500 },
-      { label: "22 inch", price: 2700 },
-      { label: "24 inch", price: 2900 },
-    ],
-    colors: ["Black", "Brown"],
-    description: "Premium Goddess Locs wig with a luxe finish.",
-    isWig: true,
-    colorCustomizationPrice: 350,
     gluelessPrice: 250,
   },
 ];

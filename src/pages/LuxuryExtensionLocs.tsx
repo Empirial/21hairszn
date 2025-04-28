@@ -8,7 +8,7 @@ import { SearchAndFilter } from "@/components/salon/SearchAndFilter";
 
 const EXTENSION_LOC_PRODUCTS = [
   {
-    img: "/lovable-uploads/6f0453d1-d48e-4639-a35b-92bee07ec251.png",
+    img: "/lovable-uploads/Jungle Locs 2.png",
     title: "Jungle Locs",
     priceWaist: 1080,
     priceButt: 1180,
@@ -17,7 +17,7 @@ const EXTENSION_LOC_PRODUCTS = [
     description: "Premium Jungle Locs extensions. Waist length: R1080, Butt length: R1180. Choose your color and add fibre for a fuller look.",
   },
   {
-    img: "/lovable-uploads/6f0453d1-d48e-4639-a35b-92bee07ec251.png",
+    img: "/lovable-uploads/Ocean Locs 2.png",
     title: "Ocean Locs",
     priceWaist: 1260,
     priceButt: 1320,
@@ -26,7 +26,7 @@ const EXTENSION_LOC_PRODUCTS = [
     description: "Ocean Locs extensions with a natural flow. Waist length: R1260, Butt length: R1320. Available in various colors.",
   },
   {
-    img: "/lovable-uploads/6f0453d1-d48e-4639-a35b-92bee07ec251.png",
+    img: "/lovable-uploads/Distressed Locs.png",
     title: "Distressed Locs",
     priceWaist: 980,
     priceButt: 1050,
@@ -35,7 +35,7 @@ const EXTENSION_LOC_PRODUCTS = [
     description: "Shoulder length: R800, Waist length: R980, Butt length: R1050. Select your perfect style and color.",
   },
   {
-    img: "/lovable-uploads/6f0453d1-d48e-4639-a35b-92bee07ec251.png",
+    img: "/lovable-uploads/Faux.png",
     title: "Faux Locs",
     priceWaist: 950,
     priceButt: 1050,
@@ -44,7 +44,7 @@ const EXTENSION_LOC_PRODUCTS = [
     description: "Faux Locs extensions. Waist length: R950, Butt length: R1050. Natural-looking that blend seamlessly with your own hair.",
   },
   {
-    img: "/lovable-uploads/6f0453d1-d48e-4639-a35b-92bee07ec251.png",
+    img: "/lovable-uploads/logo.jpg",
     title: "Goddess Locs",
     priceWaist: 1180,
     priceButt: 1250,
@@ -53,7 +53,7 @@ const EXTENSION_LOC_PRODUCTS = [
     description: "Goddess Locs extensions. Waist length: R1180, Butt length: R1250. Our most luxurious extension locs with premium materials.",
   },
   {
-    img: "/lovable-uploads/6f0453d1-d48e-4639-a35b-92bee07ec251.png",
+    img: "/lovable-uploads/Bohemian Locs 1.jpeg",
     title: "Bohemian Locs",
     priceWaist: 1180,
     priceButt: 1300,

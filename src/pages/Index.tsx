@@ -22,7 +22,7 @@ const Index = () => {
     },
     {
       id: "srv2",
-      image: "/lovable-uploads/73c5ceff-55ae-4730-b52f-0e38455eeb5f.png",
+      image: "/lovable-uploads/Cover.jpg",
       title: "Luxury Wigs And Bundles",
       description: "Perfect wig or bundle for a stunning makeover.",
       link: "/luxury-loc-wigs",
@@ -30,7 +30,7 @@ const Index = () => {
     },
     {
       id: "srv3",
-      image: "/lovable-uploads/d588347f-80d0-40be-af92-b56d763ec32d.png",
+      image: "/lovable-uploads/73c5ceff-55ae-4730-b52f-0e38455eeb5f.png",
       title: "Luxury Loc Styling & Haircare",
       description: "Professional styling & haircare services.",
       link: "/luxury-loc-styling",
@@ -81,7 +81,7 @@ const Index = () => {
         backgroundImage="/lovable-uploads/d588347f-80d0-40be-af92-b56d763ec32d.png"
         title="21 HAIR SZN"
         description="Premium Quality Hair Products & Services"
-        logoImage="/lovable-uploads/2cab34ab-00dc-465c-a606-fedf0fb284c3.png"
+        logoImage="/lovable-uploads/65e0e8fe-f288-4ab9-a82c-7593e8717c1e.png"
       />
 
       <AboutSection
@@ -92,7 +92,7 @@ const Index = () => {
       />
 
       <ShopDiscoverSection
-        title="Discover Our Collection & Services"
+        title="Pick Your Poison"
         subtitle="Shop our luxury hair services — all in one place."
         items={discoverItems}
       />

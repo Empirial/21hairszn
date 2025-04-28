@@ -67,18 +67,7 @@ export const FeaturedProducts: React.FC<FeaturedProductsProps> = ({
                           </button>
                         </div>
                       </CardContent>
-                      <CardFooter className="flex flex-col items-start p-4">
-                        <h3 className="text-lg font-semibold">{product.title}</h3>
-                        <div className="flex justify-between w-full mt-2">
-                          <span className="text-[#ff6f91] font-bold">R{product.price}</span>
-                          <button
-                            onClick={() => navigate(product.link)}
-                            className="text-[#333] hover:text-[#ff6f91] transition-colors"
-                          >
-                            View Details →
-                          </button>
-                        </div>
-                      </CardFooter>
+
                     </Card>
                   </div>
                 </CarouselItem>

@@ -26,7 +26,7 @@ export const Navbar: React.FC<NavbarProps> = ({ logo, logoAlt = "" }) => {
   return (
     <nav className="fixed top-4 left-1/2 -translate-x-1/2 w-[95%] max-w-4xl bg-white/90 backdrop-blur-sm rounded-full shadow-lg z-50 py-2 px-6">
       <div className="flex items-center justify-between">
-        <img src="/lovable-uploads/7aeec13b-93a5-42de-a333-6945090ecfae.png" alt="21HairSZN" className="h-12" />
+        <img src="/lovable-uploads/65e0e8fe-f288-4ab9-a82c-7593e8717c1e.png" alt="21HairSZN" className="h-12" />
         
         <div className="hidden md:flex items-center space-x-8">
           <a href="/" className="text-gray-700 hover:text-[#EA6683] transition-colors">Home</a>

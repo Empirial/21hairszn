@@ -11,7 +11,7 @@ import { SearchAndFilter } from "@/components/salon/SearchAndFilter";
 
 const LOCPRODUCTS = [
   {
-    img: "/lovable-uploads/6f0453d1-d48e-4639-a35b-92bee07ec251.png",
+    img: "/lovable-uploads/Ocean locs 2.png",
     title: "Ocean Locs",
     priceWaist: 850,
     priceButt: 950,
@@ -22,7 +22,7 @@ const LOCPRODUCTS = [
     description: "Waist length: R850, Butt length: R950. Fibre +R400. Colours: Black, Blonde, White, Red, Ginger, Grey, Brown. Price excludes fibre.",
   },
   {
-    img: "/lovable-uploads/6f0453d1-d48e-4639-a35b-92bee07ec251.png",
+    img: "/lovable-uploads/Jungle Locs.png",
     title: "Jungle Locs",
     priceWaist: 680,
     priceButt: 800,
@@ -33,7 +33,7 @@ const LOCPRODUCTS = [
     description: "Waist length: R680, Butt length: R800. Fibre +R380. Colours: Black, Blonde, Ginger, Brown. Price excludes fibre.",
   },
   {
-    img: "/lovable-uploads/6f0453d1-d48e-4639-a35b-92bee07ec251.png",
+    img: "/lovable-uploads/Jumbo D Locs.png",
     title: "Jumbo Distressed Locs",
     priceWaist: 600,
     priceButt: 700,
@@ -44,7 +44,7 @@ const LOCPRODUCTS = [
     description: "Waist length: R600, Butt length: R700. Fibre +R400. Many colours including ombré. Price excludes fibre.",
   },
   {
-    img: "/lovable-uploads/6f0453d1-d48e-4639-a35b-92bee07ec251.png",
+    img: "/lovable-uploads/Distressed locs.png",
     title: "Distressed Locs",
     priceWaist: 650,
     priceButt: 710,
@@ -55,7 +55,7 @@ const LOCPRODUCTS = [
     description: "Waist length: R650, Butt length: R710. Fibre +R350. Colour choices & ombré. Price excludes fibre.",
   },
   {
-    img: "/lovable-uploads/6f0453d1-d48e-4639-a35b-92bee07ec251.png",
+    img: "/lovable-uploads/Fringle J Locs.jpeg",
     title: "Fringe Locs",
     priceWaist: 750,
     priceButt: 820,
@@ -66,7 +66,7 @@ const LOCPRODUCTS = [
     description: "Waist length: R750, Butt length: R820. Fibre +R400. Available in Black, Brown, Ginger, Blonde. Price excludes fibre.",
   },
   {
-    img: "/lovable-uploads/6f0453d1-d48e-4639-a35b-92bee07ec251.png",
+    img: "/lovable-uploads/Bohemian Locs.jpeg",
     title: "Bohemian Locs",
     priceWaist: 780,
     priceButt: 880,
@@ -77,7 +77,7 @@ const LOCPRODUCTS = [
     description: "Waist length: R780, Butt length: R880. Fibre +R400. Black, Blonde, White, Red, Ginger, Grey, Brown. Price excludes fibre.",
   },
   {
-    img: "/lovable-uploads/6f0453d1-d48e-4639-a35b-92bee07ec251.png",
+    img: "/lovable-uploads/logo.jpg",
     title: "Human Hair Bohemian Locs",
     priceWaist: 2250,
     priceButt: 2850,
