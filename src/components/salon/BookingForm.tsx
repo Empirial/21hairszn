@@ -1,26 +1,41 @@
-
 import React, { useState } from "react";
-import { Button } from "./Button";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { 
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Calendar } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { CalendarIcon } from "lucide-react";
+import { format } from "date-fns";
+import { cn } from "@/lib/utils";
+import { StylingServiceOptions } from "./StylingServiceOptions";
 
-interface BookingFormProps {
-  onSubmit: (formData: BookingFormData) => void;
-  selectedProduct?: {
-    title: string;
-    color: string;
-    length: string;
-    price: number;
-  };
-}
-
-export interface BookingFormData {
+export type BookingFormData = {
   name: string;
   email: string;
   phone: string;
-  service: string;
-  date: string;
+  date: Date;
   time: string;
-  message: string;
-  productDetails?: {
+  product: string;
+  productDetails: string;
+  notes: string;
+  price: number;
+  wigInstallation: boolean;
+  wigTreatment: boolean;
+  customization: boolean;
+  stylingPrice: number;
+}
+
+interface BookingFormProps {
+  onSubmit: (data: BookingFormData) => void;
+  selectedProduct: {
     title: string;
     color: string;
     length: string;
@@ -28,246 +43,243 @@ export interface BookingFormData {
   };
 }
 
-export const BookingForm: React.FC<BookingFormProps> = ({ onSubmit, selectedProduct }) => {
-  const [formData, setFormData] = useState<BookingFormData>({
-    name: "",
-    email: "",
-    phone: "",
-    service: selectedProduct ? "luxury-loc-styling" : "",
-    date: "",
-    time: "",
-    message: selectedProduct ? `I'm interested in booking for ${selectedProduct.title} in ${selectedProduct.color}, ${selectedProduct.length} length.` : "",
-    productDetails: selectedProduct,
-  });
+export function BookingForm({ onSubmit, selectedProduct }: BookingFormProps) {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [date, setDate] = useState<Date | undefined>();
+  const [time, setTime] = useState("");
+  const [notes, setNotes] = useState("");
+  const [wigInstallation, setWigInstallation] = useState(false);
+  const [wigTreatment, setWigTreatment] = useState(false);
+  const [customization, setCustomization] = useState(false);
+  const [stylingPrice, setStylingPrice] = useState(0);
 
-  const [errors, setErrors] = useState<Partial<BookingFormData>>({});
-
-  const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-    >,
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-
-    // Clear error when field is edited
-    if (errors[name as keyof BookingFormData]) {
-      setErrors((prev) => ({
-        ...prev,
-        [name]: undefined,
-      }));
-    }
-  };
-
-  const validateForm = (): boolean => {
-    const newErrors: Partial<BookingFormData> = {};
-
-    if (!formData.name.trim()) {
-      newErrors.name = "Name is required";
-    }
-
-    if (!formData.email.trim()) {
-      newErrors.email = "Email is required";
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = "Email is invalid";
-    }
-
-    if (!formData.phone.trim()) {
-      newErrors.phone = "Phone number is required";
-    }
-
-    if (!formData.service) {
-      newErrors.service = "Please select a service";
-    }
-
-    if (!formData.date) {
-      newErrors.date = "Date is required";
-    }
-
-    if (!formData.time) {
-      newErrors.time = "Time is required";
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
+  const availableTimes = [
+    "09:00 AM", "10:00 AM", "11:00 AM", 
+    "12:00 PM", "01:00 PM", "02:00 PM", 
+    "03:00 PM", "04:00 PM", "05:00 PM"
+  ];
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
-    if (validateForm()) {
-      onSubmit(formData);
+    
+    if (!name || !email || !phone || !date || !time) {
+      alert("Please fill out all required fields");
+      return;
     }
+    
+    // Calculate total price with added services
+    let totalPrice = selectedProduct.price;
+    if (wigInstallation) totalPrice += 300;
+    if (wigTreatment) totalPrice += 400;
+    if (customization) totalPrice += 180;
+    totalPrice += stylingPrice;
+    
+    const productDetails = `${selectedProduct.title}, ${selectedProduct.color}, ${selectedProduct.length}`;
+    
+    onSubmit({
+      name,
+      email,
+      phone,
+      date,
+      time,
+      product: selectedProduct.title,
+      productDetails,
+      notes,
+      price: totalPrice,
+      wigInstallation,
+      wigTreatment,
+      customization,
+      stylingPrice
+    });
   };
 
+  const handleStylingOptionChange = (value: number) => {
+    setStylingPrice(value);
+  };
+
+  const handleWigInstallationChange = (value: boolean) => {
+    setWigInstallation(value);
+  };
+
+  const handleWigTreatmentChange = (value: boolean) => {
+    setWigTreatment(value);
+  };
+
+  const handleCustomizationChange = (value: boolean) => {
+    setCustomization(value);
+  };
+
+  // Calculate total price with additions
+  const totalPrice = selectedProduct.price + 
+    (wigInstallation ? 300 : 0) + 
+    (wigTreatment ? 400 : 0) + 
+    (customization ? 180 : 0) + 
+    stylingPrice;
+
   return (
-    <form onSubmit={handleSubmit} className="bg-white p-4 md:p-6 rounded-lg shadow-md">
-      <h3 className="text-[#ff6f91] text-xl md:text-2xl font-bold mb-4">
-        {selectedProduct ? `Book Your ${selectedProduct.title}` : "Book Your Appointment"}
-      </h3>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-        <div>
-          <label htmlFor="name" className="block text-[#333] mb-1">
-            Full Name
-          </label>
-          <input
-            type="text"
+    <form onSubmit={handleSubmit} className="space-y-6">
+      <div className="space-y-2">
+        <h2 className="text-2xl font-bold text-center">Book Your Appointment</h2>
+        <p className="text-center text-gray-500">Fill in your details to schedule your service</p>
+      </div>
+      
+      <div className="p-4 bg-gray-50 rounded-md mb-4">
+        <h3 className="font-semibold mb-2">Selected Style</h3>
+        <div className="flex justify-between">
+          <div>
+            <p className="font-medium">{selectedProduct.title}</p>
+            <p className="text-sm text-gray-600">{selectedProduct.color}, {selectedProduct.length}</p>
+          </div>
+          <p className="font-bold">R{selectedProduct.price}</p>
+        </div>
+      </div>
+      
+      <div className="grid grid-cols-1 gap-4">
+        <div className="space-y-2">
+          <Label htmlFor="name">Full Name *</Label>
+          <Input
             id="name"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            className={`w-full p-2 border rounded-md ${errors.name ? "border-red-500" : "border-gray-300"}`}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
           />
-          {errors.name && (
-            <p className="text-red-500 text-sm mt-1">{errors.name}</p>
-          )}
         </div>
-
-        <div>
-          <label htmlFor="email" className="block text-[#333] mb-1">
-            Email
-          </label>
-          <input
-            type="email"
+        
+        <div className="space-y-2">
+          <Label htmlFor="email">Email *</Label>
+          <Input
             id="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            className={`w-full p-2 border rounded-md ${errors.email ? "border-red-500" : "border-gray-300"}`}
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
           />
-          {errors.email && (
-            <p className="text-red-500 text-sm mt-1">{errors.email}</p>
-          )}
         </div>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-        <div>
-          <label htmlFor="phone" className="block text-[#333] mb-1">
-            Phone Number
-          </label>
-          <input
-            type="tel"
+        
+        <div className="space-y-2">
+          <Label htmlFor="phone">Phone Number *</Label>
+          <Input
             id="phone"
-            name="phone"
-            value={formData.phone}
-            onChange={handleChange}
-            className={`w-full p-2 border rounded-md ${errors.phone ? "border-red-500" : "border-gray-300"}`}
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+            required
           />
-          {errors.phone && (
-            <p className="text-red-500 text-sm mt-1">{errors.phone}</p>
-          )}
         </div>
-
-        <div>
-          <label htmlFor="service" className="block text-[#333] mb-1">
-            Service
-          </label>
-          <select
-            id="service"
-            name="service"
-            value={formData.service}
-            onChange={handleChange}
-            className={`w-full p-2 border rounded-md ${errors.service ? "border-red-500" : "border-gray-300"}`}
-          >
-            <option value="">Select a service</option>
-            <option value="ocean-locs">Ocean Locs</option>
-            <option value="jungle-locs">Jungle Locs</option>
-            <option value="jumbo-distressed-locs">Jumbo Distressed Locs</option>
-            <option value="distressed-locs">Distressed Locs</option>
-            <option value="fringe-locs">Fringe Locs</option>
-            <option value="bohemian-locs">Bohemian Locs</option>
-            <option value="human-hair-bohemian-locs">Human Hair Bohemian Locs</option>
-          </select>
-          {errors.service && (
-            <p className="text-red-500 text-sm mt-1">{errors.service}</p>
-          )}
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-        <div>
-          <label htmlFor="date" className="block text-[#333] mb-1">
-            Date
-          </label>
-          <input
-            type="date"
-            id="date"
-            name="date"
-            value={formData.date}
-            onChange={handleChange}
-            className={`w-full p-2 border rounded-md ${errors.date ? "border-red-500" : "border-gray-300"}`}
-          />
-          {errors.date && (
-            <p className="text-red-500 text-sm mt-1">{errors.date}</p>
-          )}
-        </div>
-
-        <div>
-          <label htmlFor="time" className="block text-[#333] mb-1">
-            Time
-          </label>
-          <input
-            type="time"
-            id="time"
-            name="time"
-            value={formData.time}
-            onChange={handleChange}
-            className={`w-full p-2 border rounded-md ${errors.time ? "border-red-500" : "border-gray-300"}`}
-          />
-          {errors.time && (
-            <p className="text-red-500 text-sm mt-1">{errors.time}</p>
-          )}
-        </div>
-      </div>
-
-      {selectedProduct && (
-        <div className="mb-4 p-3 bg-[#f7e6e6] rounded-md">
-          <h4 className="font-semibold text-[#333] mb-2">Selected Product Details:</h4>
-          <div className="text-sm grid grid-cols-2 gap-2">
-            <div>
-              <span className="font-medium">Style:</span> {selectedProduct.title}
-            </div>
-            <div>
-              <span className="font-medium">Color:</span> {selectedProduct.color}
-            </div>
-            <div>
-              <span className="font-medium">Length:</span> {selectedProduct.length}
-            </div>
-            <div>
-              <span className="font-medium">Price:</span> R{selectedProduct.price}
-            </div>
+        
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="space-y-2">
+            <Label htmlFor="date">Date *</Label>
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  variant={"outline"}
+                  className={cn(
+                    "w-full justify-start text-left font-normal",
+                    !date && "text-muted-foreground"
+                  )}
+                >
+                  <CalendarIcon className="mr-2 h-4 w-4" />
+                  {date ? format(date, "PPP") : "Select a date"}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0">
+                <Calendar
+                  mode="single"
+                  selected={date}
+                  onSelect={setDate}
+                  initialFocus
+                  disabled={(date) => {
+                    const now = new Date();
+                    return date < now;
+                  }}
+                />
+              </PopoverContent>
+            </Popover>
+          </div>
+          
+          <div className="space-y-2">
+            <Label htmlFor="time">Time *</Label>
+            <Select value={time} onValueChange={setTime}>
+              <SelectTrigger>
+                <SelectValue placeholder="Select a time" />
+              </SelectTrigger>
+              <SelectContent>
+                {availableTimes.map((t) => (
+                  <SelectItem key={t} value={t}>
+                    {t}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
         </div>
-      )}
-
-      <div className="mb-4">
-        <label htmlFor="message" className="block text-[#333] mb-1">
-          Additional Information
-        </label>
-        <textarea
-          id="message"
-          name="message"
-          value={formData.message}
-          onChange={handleChange}
-          rows={4}
-          className="w-full p-2 border border-gray-300 rounded-md"
-        ></textarea>
+        
+        <div className="pt-4 border-t">
+          <StylingServiceOptions 
+            onStylingOptionChange={handleStylingOptionChange}
+            onWigInstallationChange={handleWigInstallationChange}
+            onWigTreatmentChange={handleWigTreatmentChange}
+            onCustomizationChange={handleCustomizationChange}
+          />
+        </div>
+        
+        <div className="space-y-2">
+          <Label htmlFor="notes">Additional Notes</Label>
+          <Textarea
+            id="notes"
+            value={notes}
+            onChange={(e) => setNotes(e.target.value)}
+            placeholder="Any special requests or information we should know"
+            rows={3}
+          />
+        </div>
       </div>
-
-      <Button type="submit" variant="primary" size="lg" className="w-full">
-        {selectedProduct ? "Book Now" : "Book Appointment"}
-      </Button>
       
-      {selectedProduct && (
-        <p className="text-sm text-center mt-3 text-gray-600">
-          If you're done shopping, proceed to checkout your cart.
-        </p>
-      )}
+      <div className="pt-4 border-t">
+        <div className="flex justify-between items-center font-medium">
+          <span>Base Price:</span>
+          <span>R{selectedProduct.price}</span>
+        </div>
+        
+        {wigInstallation && (
+          <div className="flex justify-between items-center">
+            <span>Wig Installation:</span>
+            <span>R300</span>
+          </div>
+        )}
+        
+        {wigTreatment && (
+          <div className="flex justify-between items-center">
+            <span>Wig Treatment:</span>
+            <span>R400</span>
+          </div>
+        )}
+        
+        {customization && (
+          <div className="flex justify-between items-center">
+            <span>Customization:</span>
+            <span>R180</span>
+          </div>
+        )}
+        
+        {stylingPrice > 0 && (
+          <div className="flex justify-between items-center">
+            <span>Styling:</span>
+            <span>R{stylingPrice}</span>
+          </div>
+        )}
+        
+        <div className="flex justify-between items-center font-bold text-lg mt-2 pt-2 border-t">
+          <span>Total:</span>
+          <span>R{totalPrice}</span>
+        </div>
+      </div>
+      
+      <Button type="submit" className="w-full bg-[#EA6683] hover:bg-[#EA6683]/90">
+        Book Appointment
+      </Button>
     </form>
   );
-};
+}
