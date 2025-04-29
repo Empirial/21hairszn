@@ -1,5 +1,4 @@
-
-import React from "react";
+import React, { useState } from "react";
 import { toast } from "@/components/ui/sonner";
 import { cn } from "@/lib/utils";
 import ColourSelector from "./LocProductCard/ColourSelector";
@@ -28,6 +27,7 @@ export type CartItem = {
   isWig?: boolean;
   glueless?: boolean;
   colorCustomized?: boolean;
+  quantity?: number; // ✅ added quantity here
 };
 
 interface LocProductCardProps {
@@ -113,12 +113,19 @@ const LocProductCard: React.FC<LocProductCardProps> = ({
     gluelessPrice,
   });
 
+  const [quantity, setQuantity] = useState(1); // ✅ Added quantity state
+
   const handleAddToCart = () => {
-    onAddToCart(createCartItem());
+    const item = createCartItem();
+    item.quantity = quantity; // ✅ Attach quantity to the cart item
+    onAddToCart(item);
     if (!bookMode) {
       toast("Added to cart!");
     }
   };
+
+  const increaseQuantity = () => setQuantity(q => q + 1);
+  const decreaseQuantity = () => setQuantity(q => (q > 1 ? q - 1 : 1)); // ✅ minimum 1
 
   return (
     <div className="bg-white rounded-[26px] p-4 sm:p-5 pb-6 drop-shadow-md flex flex-col items-center w-full h-full max-w-[350px] shadow relative">
@@ -158,6 +165,27 @@ const LocProductCard: React.FC<LocProductCardProps> = ({
       />
       <div className="w-full mt-4 flex flex-col items-center">
         <ProductTotalPrice totalPrice={totalPrice} />
+
+        {/* ✅ Quantity Selector */}
+        <div className="flex items-center gap-2 my-2">
+          <button
+            type="button"
+            onClick={decreaseQuantity}
+            className="px-2 py-1 text-xl font-bold bg-gray-200 rounded-full"
+          >
+            -
+          </button>
+          <span className="text-lg font-medium">{quantity}</span>
+          <button
+            type="button"
+            onClick={increaseQuantity}
+            className="px-2 py-1 text-xl font-bold bg-gray-200 rounded-full"
+          >
+            +
+          </button>
+        </div>
+
+        {/* 🛒 Add to Cart Button stays exactly the same */}
         <AddToCartButton 
           onClick={handleAddToCart} 
           bookMode={bookMode} 
